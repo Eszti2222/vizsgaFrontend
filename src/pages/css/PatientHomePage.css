@@ -1,0 +1,29 @@
+.patient-home-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  padding: 24px;
+}
+
+.welcome-section {
+  margin-bottom: 24px;
+}
+
+.services-section {
+  margin-top: 16px;
+}
+
+.card-container {
+  display: flex;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.footer-info {
+  margin-top: 32px;
+  font-size: 0.9rem;
+  color: #555;
+}
