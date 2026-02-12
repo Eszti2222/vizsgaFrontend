@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 export default function Navigation() {
     return (
@@ -12,12 +12,12 @@ export default function Navigation() {
                         </Link>
                     </li>
                     <li className="navbar-item">
-                        <Link className="nav-link" to="/bejelentkezes">
+                        <Link className="nav-link" to="/login">
                             Bejelentkezés
                         </Link>
                     </li>
                     <li className="navbar-item">
-                        <Link className="nav-link" to="/regisztracio">
+                        <Link className="nav-link" to="/register">
                             Regisztráció
                         </Link>
                     </li>

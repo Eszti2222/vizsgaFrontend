@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const api = axios.create({
+export const myAxios = axios.create({
   baseURL: "http://127.0.0.1:8000/api",
   headers: {
     "Content-Type": "application/json",
@@ -9,7 +9,7 @@ const api = axios.create({
 
 // ---- PUBLIKUS ----
 export const getDoctors = () => {
-  return api.get("/doctors");
+  return myAxios.get("/doctors");
 };
 
 // ---- AUTH ----
@@ -20,8 +20,6 @@ export const getAuthHeaders = () => {
     Authorization: `Bearer ${token}`,
   };
 };
-
-export default api;
 
 
 // KÉSŐBB IDE JÖN:

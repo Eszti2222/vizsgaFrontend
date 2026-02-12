@@ -1,16 +1,13 @@
-import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
-import useAuthContext from "../contexts/AuthContext";
+import React, { useContext, useState } from "react";
+import { NavLink } from "react-router";
+import "./css/loginpage.css";
+import { AuthContext } from "../contexts/AuthContext";
 
 export default function LoginPage() {
-
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  // Front-end validáció hibái
+  const [email, setEmail] = useState("c@c.hu");
+  const [password, setPassWord] = useState("Aa123456");
   const [errors, setErrors] = useState({});
-
-  // A custom hookból jön a loginReg és a backend hibák
-  const { loginReg } = useAuthContext();
+  const { login, serverError } = useContext(AuthContext);
 
   function validateForm() {
     const newErrors = {};
@@ -30,64 +27,60 @@ export default function LoginPage() {
 
     return newErrors;
   }
-
-  async function handleSubmit(e) {
-    e.preventDefault();
-
-    // Először front-end validáció
+  function submit(event) {
+    event.preventDefault();
     const validationErrors = validateForm();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
     }
-
-    // Ha nincs front-end hiba, elküldjük a backendnek
-    const adat = {
-      email,
-      password,
-    };
-
-    try {
-      await loginReg(adat, "/login");
-    } catch (error) {
-
-      console.log("Hiba a loginReg-ben:", error);
-    }
+    const user = { email, password };
+    console.log(user);
+    login(user);
   }
 
   return (
-    <div className="auth-container">
-      <h2>Bejelentkezés</h2>
+    <div className="login">
+      <h1>WELCOME BACK</h1>
 
-      <form onSubmit={handleSubmit} className="auth-form">
-        <div className="form-group">
-          <label>Email</label>
+      <form onSubmit={submit}>
+        {serverError && <div className="alert-error">{serverError}</div>}
+        <div>
+          <label htmlFor="email">EMAIL ADDRESS</label>
           <input
             type="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Enter your email"
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+            id="email"
           />
           {errors.email && <span className="error-text">{errors.email}</span>}
         </div>
-
-        <div className="form-group">
-          <label>Jelszó</label>
+        <div>
+          <label htmlFor="password">PASSWORD</label>
           <input
             type="password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Enter your password"
+            onChange={(e) => {
+              setPassWord(e.target.value);
+            }}
+            id="password"
           />
           {errors.password && (
             <span className="error-text">{errors.password}</span>
           )}
         </div>
-
-        <button type="submit">Bejelentkezés</button>
+        <div>
+          <input type="submit" value="LOGIN" />
+        </div>
+        <div className="szoveg">
+          Registration is free!{" "}
+          <NavLink to="/register">CREATE AN ACCOUNT</NavLink>
+        </div>
       </form>
-
-      <p className="auth-link">
-        Nincs még fiókod? <NavLink to="/regisztracio">Regisztráció</NavLink>
-      </p>
     </div>
   );
 }

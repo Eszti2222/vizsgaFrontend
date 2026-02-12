@@ -1,33 +1,43 @@
-.auth-container {
+/* container */
+.login {
   max-width: 400px;
   margin: 60px auto;
   padding: 30px;
   border: 1px solid #ddd;
   border-radius: 6px;
+  background: #fff;
 }
 
-.auth-form {
+/* form */
+.login form {
   display: flex;
   flex-direction: column;
 }
 
-.form-group {
+/* form group */
+.login form > div {
   margin-bottom: 15px;
 }
 
-label {
+/* label */
+.login label {
   font-weight: bold;
   margin-bottom: 5px;
   display: block;
 }
 
-input {
+/* input */
+.login input[type="text"],
+.login input[type="email"],
+.login input[type="password"] {
   padding: 8px;
   font-size: 14px;
   width: 100%;
+  box-sizing: border-box;
 }
 
-button {
+/* submit button */
+.login input[type="submit"] {
   padding: 10px;
   margin-top: 10px;
   background-color: #1976d2;
@@ -36,16 +46,33 @@ button {
   cursor: pointer;
 }
 
-button:hover {
+.login input[type="submit"]:hover {
   background-color: #1565c0;
 }
 
+/* error text */
 .error-text {
   color: red;
   font-size: 12px;
 }
 
-.auth-link {
+/* server error */
+.alert-error {
+  color: red;
+  margin-bottom: 10px;
+}
+
+/* link text */
+.szoveg {
   margin-top: 15px;
   text-align: center;
+}
+
+.szoveg a {
+  color: #1976d2;
+  text-decoration: none;
+}
+
+.szoveg a:hover {
+  text-decoration: underline;
 }
