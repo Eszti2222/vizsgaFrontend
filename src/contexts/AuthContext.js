@@ -1,110 +1,90 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import axios from "axios";
 import { myAxios, getAuthHeaders } from "../services/api";
 
 export const AuthContext = createContext();
 
-// 2. Provider komponens
 export function AuthProvider({ children }) {
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [serverError, setServerError] = useState(null);
 
-  function login(adat) {
+  async function login(adat) {
     setLoading(true);
-    myAxios
-      .post("/users/login", adat)
-      .then(function (response) {
-        // handle success
-        /* ha sikerült a bejelentkezés elmentjük a  válaszban kapott tokent a lokalstorage-ben.   */
-        localStorage.setItem("token", response.data.token);
-        /* beállítjuk a tokent */
-        setToken(response.data.token);
-        //beállítjuk a usert is.
-        setUser(response.data.user);
-        /* Átnavigálunk a kezdőlapra */
-        window.location.href = "/";
-      })
-      .catch(function (error) {
-        // handle error
-        console.log(error);
-        hibakezeles(error)
-      })
-      .finally(function () {
-        // always executed
-        setLoading(false);
-      });
+
+    try {
+      const response = await myAxios.post("/login", adat);
+
+      localStorage.setItem("token", response.data.access_token);
+      setToken(response.data.access_token);
+      setUser(response.data.user);
+
+      window.location.href = "/";
+    } catch (error) {
+      console.log(error);
+      hibakezeles(error);
+    } finally {
+      setLoading(false);
+    }
   }
-  function register(adat) {
-    console.log(adat);
+
+  async function register(adat) {
     setLoading(true);
-    myAxios
-      .post("/users/register", adat)
-      .then(function (response) {
-        /* Átnavigálunk a login oldalra */
-        window.location.href = "/login";
-      })
-      .catch(function (error) {
-        // handle error
-        console.log(error);
-        hibakezeles(error)
-      })
-      .finally(function () {
-        // always executed
-        setLoading(false);
-      });
+    try {
+      await myAxios.post("/register", adat);
+
+      window.location.href = "/login";
+    } catch (error) {
+      console.log(error);
+      hibakezeles(error);
+    } finally {
+      setLoading(false);
+    }
   }
-  /* felhasználó betöltése, ha már van token! */
+
   useEffect(() => {
     loadUser();
   }, []);
+
   function loadUser() {
     const savedToken = localStorage.getItem("token");
 
     if (!savedToken) {
-      setLoading(false); // nincs token, loading vége
+      setLoading(false);
       setUser(null);
       return;
     }
 
     setToken(savedToken);
     setLoading(true);
-    /* ha megvan a token, a végpontról lekérdezzük a felhasználó adatait
-a fejléchez mindenképp csatolni kell a tokent. Erre szolgál a getAuthHeaders függvény. */
+
     myAxios
-      .get("/users/me", { headers: getAuthHeaders() })
-      .then((response) => {
-        setUser(response.data); //  beállítjuk a user-t
-      })
+      .get("/profile", { headers: getAuthHeaders() })
+      .then((response) => setUser(response.data))
       .catch((error) => {
         console.log(error);
-        setUser(null); // ha hiba, töröljük a user-t
-        localStorage.removeItem("token"); // ha invalid token
+        setUser(null);
+        localStorage.removeItem("token");
       })
-      .finally(() => {
-        setLoading(false); //  loading vége, user betöltve
-      });
+      .finally(() => setLoading(false));
   }
 
   function logout() {
-    /* kijelentkezéskor nullára állítjuka  tokent és a felhasználót. */
     setUser(null);
     setToken(null);
-    /* töröljük a tokent a localstorage-ból */
     localStorage.removeItem("token");
-    /* Újratöltjük az oldalt */
     window.location.reload();
   }
 
   function hibakezeles(error) {
-     const status = error.response?.status;
+    const status = error.response?.status;
     if (status === 400) {
       setServerError("A megadott adatok nem szerepelnek az adatbázisban");
-    } else if (error.status === 401) {
+    } else if (status === 401) {
       setServerError(
-        "A hitelesítési token érvénytelen vagy lejárt. Vagy A megadott adatok nem szerepelnek az adatbázisban. Menj a login oldalra!"
+        "A hitelesítési token érvénytelen vagy lejárt. Menj a login oldalra!"
       );
-      //window.location.href = "/login";
     } else if (status === 403) {
       setServerError("Nincs jogosultsága a kért művelethez!");
     } else if (status === 404) {
@@ -119,7 +99,9 @@ a fejléchez mindenképp csatolni kell a tokent. Erre szolgál a getAuthHeaders 
   }
 
   return (
-    <AuthContext.Provider value={{ login, register, loading, user, logout, serverError, loadUser }}>
+    <AuthContext.Provider
+      value={{ login, register, loading, user, logout, serverError, loadUser }}
+    >
       {children}
     </AuthContext.Provider>
   );
