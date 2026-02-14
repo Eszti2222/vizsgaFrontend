@@ -14,7 +14,7 @@ export function AuthProvider({ children }) {
     setLoading(true);
 
     try {
-      const response = await myAxios.post("/login", adat);
+      const response = await myAxios.post("/api/login", adat);
 
       localStorage.setItem("token", response.data.access_token);
       setToken(response.data.access_token);
@@ -32,9 +32,9 @@ export function AuthProvider({ children }) {
   async function register(adat) {
     setLoading(true);
     try {
-      await myAxios.post("/register", adat);
+      await myAxios.post("/api/register", adat);
 
-      window.location.href = "/login";
+      window.location.href = "/api/login";
     } catch (error) {
       console.log(error);
       hibakezeles(error);
@@ -60,7 +60,7 @@ export function AuthProvider({ children }) {
     setLoading(true);
 
     myAxios
-      .get("/profile", { headers: getAuthHeaders() })
+      .get("/api/profile", { headers: getAuthHeaders() })
       .then((response) => setUser(response.data))
       .catch((error) => {
         console.log(error);

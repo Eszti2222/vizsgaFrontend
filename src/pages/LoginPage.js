@@ -34,19 +34,19 @@ export default function LoginPage() {
       setErrors(validationErrors);
       return;
     }
-    const user = { email, password };
-    console.log(user);
-    login(user);
+
+    login({ email, password });
   }
+
 
   return (
     <div className="login">
-      <h1>WELCOME BACK</h1>
+      <h1>Üdvözöljük!</h1>
 
       <form onSubmit={submit}>
         {serverError && <div className="alert-error">{serverError}</div>}
         <div>
-          <label htmlFor="email">EMAIL ADDRESS</label>
+          <label htmlFor="email">Email cím</label>
           <input
             type="email"
             value={email}
@@ -59,7 +59,7 @@ export default function LoginPage() {
           {errors.email && <span className="error-text">{errors.email}</span>}
         </div>
         <div>
-          <label htmlFor="password">PASSWORD</label>
+          <label htmlFor="password">Jelszó</label>
           <input
             type="password"
             value={password}
@@ -74,11 +74,11 @@ export default function LoginPage() {
           )}
         </div>
         <div>
-          <input type="submit" value="LOGIN" />
+          <input type="submit" value="BEJELENTKEZÉS" />
         </div>
         <div className="szoveg">
-          Registration is free!{" "}
-          <NavLink to="/register">CREATE AN ACCOUNT</NavLink>
+          Regisztráció!{" "}
+          <NavLink to="/register">Fiók létrehozása!</NavLink>
         </div>
       </form>
     </div>

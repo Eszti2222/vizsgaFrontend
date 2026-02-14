@@ -53,11 +53,11 @@ export default function RegisterPage() {
   }
   return (
     <div className="login">
-      <h1>CREATE ACCOUNT</h1>
+      <h1>FIÓK LÉTREHOZÁSA</h1>
       <form onSubmit={submit}>
             {serverError && <div className="alert-error">{serverError}</div>}
         <div>
-          <label htmlFor="name">FULL NAME</label>
+          <label htmlFor="name">Teljes név</label>
           <input
             type="text"
             value={name}
@@ -71,7 +71,7 @@ export default function RegisterPage() {
           {errors.name && <span className="error-text">{errors.name}</span>}
         </div>
         <div>
-          <label htmlFor="email">EMAIL ADDRESS</label>
+          <label htmlFor="email">Email cím</label>
           <input
             type="email"
             value={email}
@@ -84,7 +84,7 @@ export default function RegisterPage() {
           {errors.email && <span className="error-text">{errors.email}</span>}
         </div>
         <div>
-          <label htmlFor="password">PASSWORD</label>
+          <label htmlFor="password">Jelszó</label>
           <input
             type="password"
             value={password}
@@ -100,7 +100,7 @@ export default function RegisterPage() {
           )}
         </div>
         <div>
-          <label htmlFor="cpassword">CONFIRM PASSWORD</label>
+          <label htmlFor="cpassword">Jelszó megreősítése</label>
           <input
             type="password"
             autoComplete="cpassword"
@@ -116,11 +116,11 @@ export default function RegisterPage() {
           )}
         </div>
         <div>
-          <input type="submit" value="CREATE ACCOUNT" />
+          <input type="submit" value="LÉTREHOZÁS" />
         </div>
         <div className="szoveg">
-          Already have an account?
-          <NavLink to="/login">SIGN IN HERE</NavLink>
+          Van már fiókja?
+          <NavLink to="/login">Jelentkezzen be!</NavLink>
         </div>
       </form>
     </div>

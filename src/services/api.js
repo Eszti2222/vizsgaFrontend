@@ -1,9 +1,11 @@
 import axios from "axios";
 
 export const myAxios = axios.create({
-  baseURL: "http://127.0.0.1:8000/api",
+  baseURL: "http://localhost:8000",
+  withCredentials: true,
   headers: {
     "Content-Type": "application/json",
+    "Accept": "application/json",
   },
 });
 
@@ -12,15 +14,8 @@ export const getDoctors = () => {
   return myAxios.get("/doctors");
 };
 
-// ---- AUTH ----
+// Tokenes auth header
 export const getAuthHeaders = () => {
   const token = localStorage.getItem("token");
-
   return token ? { Authorization: `Bearer ${token}` } : {};
 };
-
-
-// KÉSŐBB IDE JÖN:
-// export const login = (data) => api.post("/login", data);
-// export const getAppointments = () => api.get("/appointments");
-// export const getPatients = () => api.get("/patients");
