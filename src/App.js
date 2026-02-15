@@ -25,7 +25,7 @@ function App() {
     {
       path: "/",
       element: <Layout />,
-      middleware: [authMiddleware],
+      //middleware: [authMiddleware],
       children: [
         {
           index: true,
