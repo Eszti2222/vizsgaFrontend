@@ -5,77 +5,59 @@ import { myAxios, getAuthHeaders } from "../services/api";
 export const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-  const [token, setToken] = useState(localStorage.getItem("token"));
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [serverError, setServerError] = useState(null);
+  const csrf = () => myAxios.get("/sanctum/csrf-cookie");
 
-  async function login(adat) {
-    setLoading(true);
+  const loginReg = async ({ ...adat }, vegpont) => {
+    //lekérjük a csrf tokent
+    await csrf();
+    console.log(adat, vegpont);
 
     try {
-      const response = await myAxios.post("/api/login", adat);
+      await myAxios.post(vegpont, adat);
+      console.log("siker");
+      //sikeres bejelentkezés/regisztráció esetén
+      //Lekérdezzük a usert
+      //await getUser();
+      //elmegyünk  a kezdőlapra
+      loadUser()
+      window.location.href = "/home";
 
-      localStorage.setItem("token", response.data.access_token);
-      setToken(response.data.access_token);
-      setUser(response.data.user);
-
-      window.location.href = "/";
     } catch (error) {
       console.log(error);
-      hibakezeles(error);
-    } finally {
-      setLoading(false);
+      if (error.response.status === 422) {
+        hibakezeles(error.response.data.errors);
+      }
     }
-  }
-
-  async function register(adat) {
-    setLoading(true);
-    try {
-      await myAxios.post("/api/register", adat);
-
-      window.location.href = "/api/login";
-    } catch (error) {
-      console.log(error);
-      hibakezeles(error);
-    } finally {
-      setLoading(false);
-    }
-  }
+  };
 
   useEffect(() => {
-    loadUser();
-  }, []);
-
-  function loadUser() {
-    const savedToken = localStorage.getItem("token");
-
-    if (!savedToken) {
-      setLoading(false);
-      setUser(null);
-      return;
+    if (!user) {
+      loadUser()
     }
+  }, [])
 
-    setToken(savedToken);
-    setLoading(true);
-
-    myAxios
-      .get("/api/profile", { headers: getAuthHeaders() })
-      .then((response) => setUser(response.data))
-      .catch((error) => {
-        console.log(error);
-        setUser(null);
-        localStorage.removeItem("token");
-      })
-      .finally(() => setLoading(false));
+  const loadUser = async () => {
+    try {
+      await csrf(); // CSRF cookie lekérése
+      const { data } = await myAxios.get("/api/profile");
+      console.log(data)
+      setUser(data);
+    } catch(err) {
+      console.log(err);
+    }
   }
 
-  function logout() {
-    setUser(null);
-    setToken(null);
-    localStorage.removeItem("token");
-    window.location.reload();
-  }
+  const logout = async () => {
+    await csrf();
+
+    myAxios.post("/logout").then((resp) => {
+      setUser(null);
+      console.log(resp);
+    });
+  };
 
   function hibakezeles(error) {
     const status = error.response?.status;
@@ -99,9 +81,7 @@ export function AuthProvider({ children }) {
   }
 
   return (
-    <AuthContext.Provider
-      value={{ login, register, loading, user, logout, serverError, loadUser }}
-    >
+    <AuthContext.Provider value={{ logout, loginReg, hibakezeles, loadUser, user }}>
       {children}
     </AuthContext.Provider>
   );
