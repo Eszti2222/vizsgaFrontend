@@ -6,7 +6,7 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import HomePage from "./pages/HomePage";
 import NoPage from "./pages/NoPage";
-import Layout from "./pages/Layout";
+import Layout from "./layouts/Layout";
 import DocumentsPage from "./pages/DocumentsPage";
 import TimeTablePage from "./pages/TimeTablePage";
 import ProfilePage from "./pages/ProfilePage";
@@ -24,6 +24,7 @@ function App() {
     },
     {
       path: "/",
+      //kell külön adminlayout, patient stb...
       element: <Layout />,
       //middleware: [authMiddleware],
       children: [
