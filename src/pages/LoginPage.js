@@ -35,7 +35,7 @@ export default function LoginPage() {
       return;
     }
 
-    loginReg({ email, password });
+    loginReg({ email, password },"/login");
   }
 
 
