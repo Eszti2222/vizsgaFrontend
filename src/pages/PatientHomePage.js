@@ -1,42 +1,26 @@
+// src/pages/PatientHomePage.js
 import React from "react";
-import "./css/PatientHomePage.css";
+import HomeLayout from "../layouts/HomeLayout";
 
-const PatientHomePage = () => {
+export default function PatientHomePage() {
+  const patientMenuItems = [
+    { label: "Időpont foglalás", to: "/timetable" },
+    { label: "Dokumentumaim", to: "/documents" },
+    { label: "Szakrendelések", to: "/specialorders" },
+  ];
+
+  const patientCards = [
+    { title: "Időpont foglalás" },
+    { title: "GYIK" },
+    { title: "Dokumentumok" },
+  ];
+
   return (
-    <div className="patient-home-container">
-      
-      <aside className="sidebar">
-        Sidebar tartalom
-      </aside>
-
-      <main className="main-content">
-        
-        <header className="header">
-          Header tartalom
-        </header>
-
-        <section className="welcome-section">
-          <h1>Üdvözlő szöveg</h1>
-          <p>Rövid általános információ</p>
-        </section>
-
-        <section className="services-section">
-          <h2>Szolgáltatásaink:</h2>
-
-          <div className="card-container">
-            <div className="service-card">Időpont foglalás</div>
-            <div className="service-card">GYIK</div>
-            <div className="service-card">Dokumentumok</div>
-          </div>
-        </section>
-
-        <footer className="footer-info">
-          elérhetőségek, social felületek, helyszín
-        </footer>
-
-      </main>
-    </div>
+    <HomeLayout
+      welcomeTitle="Üdvözöljük a páciens felületen!"
+      welcomeSubtitle="Itt foglalhat időpontot, kezelheti dokumentumait és megtekintheti a szakrendeléseket."
+      cards={patientCards}
+      extraMenuItems={patientMenuItems}
+    />
   );
-};
-
-export default PatientHomePage;
+}

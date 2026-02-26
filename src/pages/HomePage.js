@@ -1,32 +1,50 @@
-import React, { useContext } from "react";
-import { Link } from "react-router"; // sima Link, ne NavLink
-import { AuthContext } from "../contexts/AuthContext";
-import Navigation from "./Navigation";
-import "./css/homepage.css";
+// src/layouts/HomeLayout.js
+import React from "react";
+// ha a felső sávot a NavigationPage csinálja, akkor:
+import Navigation from "../pages/Navigation"; 
+import "../pages/css/homelayout.css";
 
-export default function HomePage() {
-  //const { user } = useContext(AuthContext);
-
+const HomeLayout = ({
+  welcomeTitle,
+  welcomeSubtitle,
+  cards = [],
+  extraMenuItems = [],
+}) => {
   return (
-    <div>
-      <h5>
-        Üdvözlő szöveg
-      </h5>
-    </div>
+    <div className="home-layout">
+      {/* felső sáv */}
+      <Navigation />
 
-//    <div>
-//      <h1>Kezdőlap</h1>
-//
-//      {user ? (
-//        <p>
-//          Üdv, {user.name}! Jelenlegi szereped: {user.role}
-//        </p>
-//      ) : (
-//        <p>
-//          Kérlek, jelentkezz be a folytatáshoz.{" "}
-//          <Link to="/login">Jelentkezz be!</Link>
-//        </p>
-//      )}
-//    </div>
+      <div className="home-layout__body">
+        {/* bal oldali menü */}
+        <Sidebar extraMenuItems={extraMenuItems} />
+
+        {/* középső tartalom */}
+        <main className="home-layout__content">
+          <section className="home-layout__welcome">
+            <h1>{welcomeTitle}</h1>
+            <p>{welcomeSubtitle}</p>
+          </section>
+
+          <section className="home-layout__cards">
+            <h2>Szolgáltatásaink</h2>
+            <div className="home-layout__cards-grid">
+              {cards.map((card) => (
+                <div className="info-card" key={card.title}>
+                  <h3>{card.title}</h3>
+                  {card.description && <p>{card.description}</p>}
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <footer className="home-layout__footer">
+            <p>Elérhetőségeink, social felületek, helyszín</p>
+          </footer>
+        </main>
+      </div>
+    </div>
   );
-}
+};
+
+export default HomeLayout;

@@ -1,0 +1,54 @@
+/* src/pages/css/homeLayout.css */
+
+/* A teljes oldal konténer */
+.home-layout {
+  font-family: sans-serif;
+}
+
+/* A tartalom bal oldali és felső margója:
+   - 240px: sidenav szélesség (navigation.css-ben)
+   - 60px: headnav magasság (navigation.css-ben) */
+.home-layout__content {
+  margin-left: 240px;
+  margin-top: 60px;
+
+  padding: 24px;
+  box-sizing: border-box;
+
+  min-height: calc(100vh - 60px);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Üdvözlő rész */
+.home-layout__welcome h1 {
+  margin-bottom: 8px;
+}
+
+/* Kártyák blokk */
+.home-layout__cards {
+  margin-top: 24px;
+}
+
+.home-layout__cards-grid {
+  display: flex;
+  gap: 16px;
+  margin-top: 12px;
+}
+
+/* Kártya */
+.info-card {
+  flex: 1;
+  border: 1px solid #ddd;
+  padding: 16px;
+  min-height: 100px;
+  background: #fff;
+}
+
+/* Footer jellegű alsó rész */
+.home-layout__footer {
+  margin-top: auto;
+  padding-top: 24px;
+  font-size: 0.9rem;
+  color: #555;
+}

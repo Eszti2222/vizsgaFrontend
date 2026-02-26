@@ -11,6 +11,7 @@ import DocumentsPage from "./pages/DocumentsPage";
 import TimeTablePage from "./pages/TimeTablePage";
 import ProfilePage from "./pages/ProfilePage";
 import SpecialordersPage from "./pages/SpecialordersPage";
+import PatientHomePage from "./pages/PatientHomePage";
 
 function App() {
   const router = createBrowserRouter([
@@ -47,10 +48,15 @@ function App() {
           path: "/documents",
           element: <DocumentsPage />,
         },
-                {
+        {
           path: "/specialorders",
           element: <SpecialordersPage />,
         },
+        {
+          path:"/home",
+          element: <PatientHomePage />,
+        },
+         
       ],
     },
     {
