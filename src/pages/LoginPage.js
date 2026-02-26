@@ -4,10 +4,10 @@ import "./css/loginpage.css";
 import { AuthContext } from "../contexts/AuthContext";
 
 export default function LoginPage() {
-  const [email, setEmail] = useState("teszt@pelda.hu");
+  const [email, setEmail] = useState("admin@test.com");
   const [password, setPassWord] = useState("password123");
   const [errors, setErrors] = useState({});
-  const { login, serverError } = useContext(AuthContext);
+  const { loginReg, serverError } = useContext(AuthContext);
 
   function validateForm() {
     const newErrors = {};
@@ -35,7 +35,7 @@ export default function LoginPage() {
       return;
     }
 
-    login({ email, password });
+    loginReg({ email, password },"/login");
   }
 
 

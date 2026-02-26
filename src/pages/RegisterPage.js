@@ -7,9 +7,9 @@ export default function RegisterPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassWord] = useState("");
-  const [cpassword, setCPassWord] = useState("");
+  const [password_confirmation, setpassword_confirmation] = useState("");
   const [errors, setErrors] = useState({});
-  const {register, serverError}=useContext(AuthContext)
+  const {loginReg, serverError}=useContext(AuthContext)
   const navigate = useNavigate();
 
   function validateForm() {
@@ -31,10 +31,10 @@ export default function RegisterPage() {
       newErrors.password =
         "A jelszónak legalább 6 karakter hosszúnak kell lennie";
     }
-    if (!cpassword) {
-      newErrors.cpassword = "Ismételje meg a jelszót";
-    } else if (password !== cpassword) {
-      newErrors.cpassword = "A két jelszó nem egyezik!";
+    if (!password_confirmation) {
+      newErrors.password_confirmation = "Ismételje meg a jelszót";
+    } else if (password !== password_confirmation) {
+      newErrors.password_confirmation = "A két jelszó nem egyezik!";
     }
 
     return newErrors;
@@ -47,9 +47,9 @@ export default function RegisterPage() {
       setErrors(validationErrors);
       return;
     }
-    const user = { name, email, password, cpassword };
+    const user = { name, email, password, password_confirmation };
     console.log(user);
-    register(user);
+    loginReg({name, email, password, password_confirmation },"/register");
   }
   return (
     <div className="login">
@@ -100,19 +100,19 @@ export default function RegisterPage() {
           )}
         </div>
         <div>
-          <label htmlFor="cpassword">Jelszó megreősítése</label>
+          <label htmlFor="password_confirmation">Jelszó megreősítése</label>
           <input
             type="password"
-            autoComplete="cpassword"
-            value={cpassword}
+            autoComplete="password_confirmation"
+            value={password_confirmation}
             placeholder="Confirm your password"
             onChange={(e) => {
-              setCPassWord(e.target.value);
+              setpassword_confirmation(e.target.value);
             }}
-            id="cpassword"
+            id="password_confirmation"
           />
-          {errors.cpassword && (
-            <span className="error-text">{errors.cpassword}</span>
+          {errors.password_confirmation && (
+            <span className="error-text">{errors.password_confirmation}</span>
           )}
         </div>
         <div>
