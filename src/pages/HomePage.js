@@ -17,7 +17,7 @@ const HomeLayout = ({
 
       <div className="home-layout__body">
         {/* bal oldali menü */}
-        <Sidebar extraMenuItems={extraMenuItems} />
+       
 
         {/* középső tartalom */}
         <main className="home-layout__content">
