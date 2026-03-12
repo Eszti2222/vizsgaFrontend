@@ -13,6 +13,7 @@ export default function Navigation() {
           <strong>LOGO</strong>
         </p>
 
+        {/* majd ha megvan a login user */}
         {user ? (
           <div className="dropdown">
             <button
@@ -22,7 +23,8 @@ export default function Navigation() {
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
-              Bejelentkezett fiók {user.name}
+              Bejelentkezett fiók{" "}
+              {/* majd ha megvan a login {user.user.name} */}
             </button>
             <ul className="dropdown-menu" aria-labelledby="userDropdown">
               <li>
@@ -34,7 +36,7 @@ export default function Navigation() {
                 <button
                   className="dropdown-item"
                   onClick={() => {
-                    logout();
+                    logout(); // majd ha megvan a login
                   }}
                 >
                   Kijelentkezés
@@ -69,6 +71,9 @@ export default function Navigation() {
           </li>
           <li>
             <NavLink to="/specialorders">Szakrendelések</NavLink>
+          </li>
+          <li>
+            <NavLink to="/doctors">Orvosok</NavLink>
           </li>
         </ul>
         <ul>

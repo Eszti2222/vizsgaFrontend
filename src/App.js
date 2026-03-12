@@ -11,6 +11,9 @@ import DocumentsPage from "./pages/DocumentsPage";
 import TimeTablePage from "./pages/TimeTablePage";
 import ProfilePage from "./pages/ProfilePage";
 import SpecialordersPage from "./pages/SpecialordersPage";
+import DoctorsPage from "./pages/DoctorsPage";
+import DoctorDetailsPage from "./pages/DoctorDetailsPage";
+import { DoctorProvider } from "./contexts/DoctorContext";
 
 function App() {
   const router = createBrowserRouter([
@@ -52,6 +55,15 @@ function App() {
           path: "/specialorders",
           element: <SpecialordersPage />,
         },
+        {
+          path: "/doctors",
+          element: <DoctorsPage />,
+        },
+
+        {
+          path: "/doctors/:id",
+          element: <DoctorDetailsPage />,
+        },
       ],
     },
     {
@@ -62,7 +74,9 @@ function App() {
 
   return (
     <AuthProvider>
-      <RouterProvider router={router} />
+      <DoctorProvider>
+        <RouterProvider router={router} />
+      </DoctorProvider>
     </AuthProvider>
   );
 }

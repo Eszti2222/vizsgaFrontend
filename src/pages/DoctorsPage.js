@@ -1,28 +1,15 @@
-import React, { useEffect, useState } from "react";
-//import axios from "axios";
-import { getDoctors } from "../services/api";
-
+import React, { useContext, useEffect, useState } from "react";
+import { DoctorContext } from "../contexts/DoctorContext";
+import DoctorComponent from "../components/patient/DoctorComponent";
 
 export default function DoctorsPage() {
-  const [doctors, setDoctors] = useState([]);
-
-  function getDoctors() {
-    axios
-      //.get("http://127.0.0.1:8000/api/doctors")
-      getDoctors()
-      .then(response => {
-        console.log(response.data);
-        setDoctors(response.data);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }
+  const { doctors, loadingDoctors, doctorError, loadDoctors, setDoctors } =
+    useContext(DoctorContext);
 
   useEffect(() => {
-    getDoctors();
+    loadDoctors();
+    console.log(doctors);
   }, []);
-
   return (
     <div>
       <h2>Orvosaink</h2>
@@ -30,13 +17,9 @@ export default function DoctorsPage() {
       {doctors.length === 0 && <p>Nincs megjeleníthető orvos</p>}
 
       <ul>
-        {doctors.map(doctor => (
-          <li key={doctor.id}>
-            <strong>{doctor.name}</strong><br />
-            Szakterület: {doctor.specialization}<br />
-            Rendelő: {doctor.office_location}
-          </li>
-        ))}
+        {doctors.map((doctor, i) => {
+          return <DoctorComponent doctor={doctor} key={i} />;
+        })}
       </ul>
     </div>
   );
