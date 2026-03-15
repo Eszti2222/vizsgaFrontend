@@ -8,6 +8,13 @@ import HomePage from "./pages/HomePage";
 import NoPage from "./pages/NoPage";
 import Layout from "./layouts/Layout";
 import DocumentsPage from "./pages/DocumentsPage";
+import BookedTimes from "./pages/doctor/BookedTimes";
+import AdminHomePage from "./pages/admin/AdminHomePage";
+import PatientHomePage from "./pages/PatientHomePage";
+import DoctorPatientsList from "./components/doctor/DoctorPatientsList";
+import DoctorAppointmentsList from "./components/doctor/DoctorAppointmentsList";
+import DoctorPatientDetails from "./components/doctor/DoctorPatientDetails";
+import DocumentUpload from "./components/doctor/DocumentUpload";
 import TimeTablePage from "./pages/TimeTablePage";
 import ProfilePage from "./pages/ProfilePage";
 import SpecialordersPage from "./pages/SpecialordersPage";
@@ -63,6 +70,34 @@ function App() {
         {
           path: "/doctors/:id",
           element: <DoctorDetailsPage />,
+        },
+        {
+          path: "/appointments",
+          element: <BookedTimes />,
+        },
+        {
+          path: "/patients",
+          element: <DoctorPatientsList />,
+        },
+        {
+          path: "/appointments-list",
+          element: <DoctorAppointmentsList />,
+        },
+        {
+          path: "/patients/:id",
+          element: <DoctorPatientDetails />,
+        },
+        {
+          path: "/document-upload",
+          element: <DocumentUpload />,
+        },
+        {
+          path: "/admin",
+          element: <AdminHomePage />,
+        },
+        {
+          path: "/patient-home",
+          element: <PatientHomePage />,
         },
       ],
     },

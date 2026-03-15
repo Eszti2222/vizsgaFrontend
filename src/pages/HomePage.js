@@ -1,50 +1,41 @@
-// src/layouts/HomeLayout.js
-import React from "react";
-// ha a felső sávot a NavigationPage csinálja, akkor:
-import Navigation from "../pages/Navigation"; 
+import React, { useContext } from "react";
+import { AuthContext } from "../contexts/AuthContext";
+import DoctorHomePage from "./doctor/DoctorHomePage";
+import PatientHomePage from "./PatientHomePage";
 import "../pages/css/homelayout.css";
 
-const HomeLayout = ({
-  welcomeTitle,
-  welcomeSubtitle,
-  cards = [],
-  extraMenuItems = [],
-}) => {
+const patientCards = [
+  { title: "Időpont foglalás" },
+  { title: "GYIK" },
+  { title: "Dokumentumok" },
+];
+
+export default function HomePage() {
+  const { user } = useContext(AuthContext);
+
+  if (user) {
+    if (user.role === "doctor") {
+      return <DoctorHomePage />;
+    }
+    //if (user.role === "admin") {
+    //  return <AdminHomePage />;
+    //}
+    if (user.role === "patient") {
+      return <PatientHomePage />;
+    }
+  }
+
+  // vendég vagy ismeretlen szerepkör
   return (
     <div className="home-layout">
-      {/* felső sáv */}
-      <Navigation />
-
       <div className="home-layout__body">
-        {/* bal oldali menü */}
-       
-
-        {/* középső tartalom */}
         <main className="home-layout__content">
           <section className="home-layout__welcome">
-            <h1>{welcomeTitle}</h1>
-            <p>{welcomeSubtitle}</p>
+            <h1>Üdvözöljük!</h1>
+            <p>Kérjük, jelentkezzen be a folytatáshoz.</p>
           </section>
-
-          <section className="home-layout__cards">
-            <h2>Szolgáltatásaink</h2>
-            <div className="home-layout__cards-grid">
-              {cards.map((card) => (
-                <div className="info-card" key={card.title}>
-                  <h3>{card.title}</h3>
-                  {card.description && <p>{card.description}</p>}
-                </div>
-              ))}
-            </div>
-          </section>
-
-          <footer className="home-layout__footer">
-            <p>Elérhetőségeink, social felületek, helyszín</p>
-          </footer>
         </main>
       </div>
     </div>
   );
-};
-
-export default HomeLayout;
+}
