@@ -1,3 +1,6 @@
+import AboutUsPage from "./pages/AboutUsPage";
+import GyikPage from "./pages/GyikPage";
+import ContactsPage from "./pages/ContactsPage";
 import React from "react";
 import { createBrowserRouter, RouterProvider, Navigate } from "react-router";
 import { AuthProvider } from "./contexts/AuthContext";
@@ -90,6 +93,18 @@ function App() {
         {
           path: "/document-upload",
           element: <DocumentUpload />,
+        },
+        {
+          path: "/aboutus",
+          element: <AboutUsPage />,
+        },
+        {
+          path: "/gyik",
+          element: <GyikPage />,
+        },
+        {
+          path: "/contacts",
+          element: <ContactsPage />,
         },
         {
           path: "/admin",
