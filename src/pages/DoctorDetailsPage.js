@@ -71,6 +71,10 @@ export default function DoctorDetailsPage() {
         </Link>
       </div>
 
+      <Link to={`/doctors/${id}/timetable`} className="btn btn-primary mt-3">
+        Időpont foglalása ehhez az orvoshoz
+      </Link>
+
       <div className="card shadow-sm">
         <div className="card-body">
           <h3 className="card-title mb-3">{doctor.name}</h3>

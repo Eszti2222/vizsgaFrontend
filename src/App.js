@@ -114,6 +114,10 @@ function App() {
           path: "/patient-home",
           element: <PatientHomePage />,
         },
+        {
+          path: "/doctors/:id/timetable",
+          element: <TimeTablePage />,
+        },
       ],
     },
     {

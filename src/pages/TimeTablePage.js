@@ -3,12 +3,15 @@ import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { AuthContext } from "../contexts/AuthContext";
+import { myAxios } from "../services/api";
+import { useParams } from "react-router";
 
 const localizer = momentLocalizer(moment);
 
 export default function TimeTablePage() {
   const { loadUser, user, loading } = useContext(AuthContext);
   const [events, setEvents] = useState([]);
+  const { id: doctorId } = useParams();
 
   // Betöltjük a felhasználót
   useEffect(() => {
@@ -16,7 +19,7 @@ export default function TimeTablePage() {
   }, [loadUser]);
 
   // Átalakítjuk a session-öket eseményekké
-  useEffect(() => {
+  /*useEffect(() => {
     if (user?.sessions) {
       const evs = user.sessions.map((s) => ({
         title: s.doctor?.name || "Orvos",
@@ -27,10 +30,59 @@ export default function TimeTablePage() {
       setEvents(evs);
     }
   }, [user]);
+  */
+  useEffect(() => {
+    (async () => {
+      const { data } = await myAxios.get(
+        `/api/doctors/${doctorId}/appointments`,
+      );
+      const evs = data.map((appt) => ({
+        title: "Foglalt",
+        start: new Date(appt.appointment_time),
+        end: new Date(appt.appointment_time),
+        isBooked: true,
+      }));
+      setEvents(evs);
+    })();
+  }, [doctorId]);
 
   if (loading) return <div>Betöltés folyamatban...</div>;
 
   // Kattintás egy szabad időpontra
+ const handleSelectSlot = async ({ start, end }) => {
+  const alreadyBooked = events.find(
+    (ev) => ev.start.getTime() === start.getTime(),
+  );
+
+  if (alreadyBooked) {
+    alert("Ez az időpont már foglalt!");
+    return;
+  }
+
+  try {
+    await myAxios.post(`/api/doctors/${doctorId}/appointments`, {
+      appointment_time: start.toISOString(),
+    });
+
+    const newEvent = {
+      title: "Foglalt", // vagy doctor.name-et is átadhatnátok state-ből
+      start,
+      end,
+      isBooked: true,
+    };
+
+    setEvents([...events, newEvent]);
+
+    alert("Időpont sikeresen lefoglalva!");
+  } catch (error) {
+    console.error(error);
+    alert(
+      error.response?.data?.message ||
+        "Hiba történt az időpont foglalása közben.",
+    );
+  }
+};
+  /*
   const handleSelectSlot = ({ start, end }) => {
     const alreadyBooked = events.find(
       (ev) => ev.start.getTime() === start.getTime()
@@ -57,6 +109,7 @@ export default function TimeTablePage() {
     // axios.post('/api/appointments', { appointment_time: start, doctor_id: ... })
     alert("Időpont sikeresen lefoglalva!");
   };
+*/
 
   return (
     <div style={{ padding: "20px" }}>
