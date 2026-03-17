@@ -49,39 +49,43 @@ export default function TimeTablePage() {
   if (loading) return <div>Betöltés folyamatban...</div>;
 
   // Kattintás egy szabad időpontra
- const handleSelectSlot = async ({ start, end }) => {
-  const alreadyBooked = events.find(
-    (ev) => ev.start.getTime() === start.getTime(),
-  );
+  const formatToMySQL = (date) => {
+    return date.toISOString().slice(0, 19).replace("T", " ");
+  };
 
-  if (alreadyBooked) {
-    alert("Ez az időpont már foglalt!");
-    return;
-  }
-
-  try {
-    await myAxios.post(`/api/doctors/${doctorId}/appointments`, {
-      appointment_time: start.toISOString(),
-    });
-
-    const newEvent = {
-      title: "Foglalt", // vagy doctor.name-et is átadhatnátok state-ből
-      start,
-      end,
-      isBooked: true,
-    };
-
-    setEvents([...events, newEvent]);
-
-    alert("Időpont sikeresen lefoglalva!");
-  } catch (error) {
-    console.error(error);
-    alert(
-      error.response?.data?.message ||
-        "Hiba történt az időpont foglalása közben.",
+  const handleSelectSlot = async ({ start, end }) => {
+    const alreadyBooked = events.find(
+      (ev) => ev.start.getTime() === start.getTime(),
     );
-  }
-};
+
+    if (alreadyBooked) {
+      alert("Ez az időpont már foglalt!");
+      return;
+    }
+
+    try {
+      await myAxios.post(`/api/doctors/${doctorId}/appointments`, {
+        appointment_time: formatToMySQL(start),
+      });
+
+      const newEvent = {
+        title: "Foglalt",
+        start,
+        end,
+        isBooked: true,
+      };
+
+      setEvents([...events, newEvent]);
+
+      alert("Időpont sikeresen lefoglalva!");
+    } catch (error) {
+      console.error(error);
+      alert(
+        error.response?.data?.message ||
+          "Hiba történt az időpont foglalása közben.",
+      );
+    }
+  };
   /*
   const handleSelectSlot = ({ start, end }) => {
     const alreadyBooked = events.find(
