@@ -51,7 +51,7 @@ export default function PatientBookedAppointmentsPage() {
               setSortOrder((prev) => (prev === "asc" ? "desc" : "asc"))
             }
           >
-            {sortOrder === "asc" ? "Legújabb elöl" : "Legrégebbi elöl"}
+            {sortOrder === "asc" ? "Legközelebbi elöl" : "Legtávolabbi elöl"}
           </button>
 
           <Link to="/doctors" className="btn btn-primary">
@@ -91,7 +91,7 @@ export default function PatientBookedAppointmentsPage() {
                   </p>
 
                   <p className="card-text mb-0">
-                    <strong>Státusz:</strong> {appt.status}
+                    <strong>Státusz:</strong> {appt.status === "scheduled" ? "foglalva" : appt.status}
                   </p>
                   <button
                     type="button"
