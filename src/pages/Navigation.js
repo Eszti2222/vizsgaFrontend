@@ -1,4 +1,3 @@
-
 import React, { useContext } from "react";
 import { NavLink } from "react-router";
 import { AuthContext } from "../contexts/AuthContext";
@@ -6,7 +5,6 @@ import "./css/navigation.css";
 
 export default function Navigation() {
   const { user, logout } = useContext(AuthContext);
-
 
   // Orvos-specifikus menüpontok
   const doctorNavItems = [
@@ -21,7 +19,7 @@ export default function Navigation() {
   const patientNavItems = [
     { path: "/", label: "Kezdőlap" },
     { path: "/profile", label: "Profilom" },
-    { path: "/timetable", label: "Időpont foglalás" },
+    { path: "/patient-my-appointments", label: "Időpontjaim" },
     { path: "/documents", label: "Dokumentumaim" },
     { path: "/specialorders", label: "Szakrendelések" },
     { path: "/doctors", label: "Orvosok" },
@@ -83,16 +81,20 @@ export default function Navigation() {
       </nav>
       <nav className="sidenav">
         <ul>
-          {user && user.role === "doctor" && doctorNavItems.map((item) => (
-            <li key={item.path}>
-              <NavLink to={item.path}>{item.label}</NavLink>
-            </li>
-          ))}
-          {user && user.role === "patient" && patientNavItems.map((item) => (
-            <li key={item.path}>
-              <NavLink to={item.path}>{item.label}</NavLink>
-            </li>
-          ))}
+          {user &&
+            user.role === "doctor" &&
+            doctorNavItems.map((item) => (
+              <li key={item.path}>
+                <NavLink to={item.path}>{item.label}</NavLink>
+              </li>
+            ))}
+          {user &&
+            user.role === "patient" &&
+            patientNavItems.map((item) => (
+              <li key={item.path}>
+                <NavLink to={item.path}>{item.label}</NavLink>
+              </li>
+            ))}
         </ul>
         <ul className="fixed-bottom-nav">
           {fixedNavItems.map((item) => (
@@ -145,11 +147,12 @@ export default function Navigation() {
       </nav>
       <nav className="sidenav">
         <ul>
-          {showDoctorNav && doctorNavItems.map((item) => (
-            <li key={item.path}>
-              <NavLink to={item.path}>{item.label}</NavLink>
-            </li>
-          ))}
+          {showDoctorNav &&
+            doctorNavItems.map((item) => (
+              <li key={item.path}>
+                <NavLink to={item.path}>{item.label}</NavLink>
+              </li>
+            ))}
         </ul>
         <ul className="fixed-bottom-nav">
           {fixedNavItems.map((item) => (

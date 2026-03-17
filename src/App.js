@@ -24,6 +24,7 @@ import SpecialordersPage from "./pages/SpecialordersPage";
 import DoctorsPage from "./pages/DoctorsPage";
 import DoctorDetailsPage from "./pages/DoctorDetailsPage";
 import { DoctorProvider } from "./contexts/DoctorContext";
+import PatientBookedAppointmentsPage from "./pages/PatientBookedAppointmentsPage";
 
 function App() {
   const router = createBrowserRouter([
@@ -117,6 +118,10 @@ function App() {
         {
           path: "/doctors/:id/timetable",
           element: <TimeTablePage />,
+        },
+        {
+          path: "/patient-my-appointments",
+          element: <PatientBookedAppointmentsPage />,
         },
       ],
     },
