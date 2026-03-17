@@ -71,7 +71,11 @@ export default function DoctorDetailsPage() {
         </Link>
       </div>
 
-      <Link to={`/doctors/${id}/timetable`} className="btn btn-primary mt-3">
+      <Link
+        to={`/doctors/${id}/timetable`}
+        state={{ doctorName: doctor.name }} 
+        className="btn btn-primary mt-3"
+      >
         Időpont foglalása ehhez az orvoshoz
       </Link>
 
