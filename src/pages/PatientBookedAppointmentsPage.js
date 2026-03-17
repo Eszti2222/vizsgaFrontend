@@ -19,6 +19,25 @@ export default function PatientBookedAppointmentsPage() {
     fetchAppointments(sortOrder);
   }, [sortOrder]);
 
+  const handleDelete = async (id) => {
+    const ok = window.confirm(
+      "Biztosan törlöd ezt az időpontot? Ez a művelet nem visszavonható.",
+    );
+    if (!ok) return;
+
+    try {
+      await myAxios.delete(`/api/appointments/${id}`);
+      setAppointments((prev) => prev.filter((appt) => appt.id !== id));
+      alert("Időpont sikeresen törölve.");
+    } catch (error) {
+      console.error("Hiba az időpont törlésekor:", error);
+      alert(
+        error.response?.data?.message ||
+          "Hiba történt az időpont törlése közben.",
+      );
+    }
+  };
+
   return (
     <div className="container mt-4">
       <div className="d-flex justify-content-between align-items-center mb-4">
@@ -41,9 +60,7 @@ export default function PatientBookedAppointmentsPage() {
         </div>
       </div>
 
-      {appointments.length === 0 && (
-        <p>Még nincs foglalt időpontod.</p>
-      )}
+      {appointments.length === 0 && <p>Még nincs foglalt időpontod.</p>}
 
       {appointments.length > 0 && (
         <div className="row g-3">
@@ -76,6 +93,13 @@ export default function PatientBookedAppointmentsPage() {
                   <p className="card-text mb-0">
                     <strong>Státusz:</strong> {appt.status}
                   </p>
+                  <button
+                    type="button"
+                    className="btn btn-outline-danger btn-sm mt-2"
+                    onClick={() => handleDelete(appt.id)}
+                  >
+                    Időpont törlése
+                  </button>
                 </div>
               </div>
             </div>
