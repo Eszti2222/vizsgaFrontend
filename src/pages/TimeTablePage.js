@@ -28,47 +28,62 @@ export default function TimeTablePage() {
 
   // Átalakítjuk a session-öket eseményekké
   useEffect(() => {
+    if (!user) return;
+
     (async () => {
       const { data } = await myAxios.get(
         `/api/doctors/${doctorId}/appointments`,
       );
-      const evs = data.map((appt) => ({
-        title: "Foglalt",
-        start: new Date(appt.appointment_time),
-        end: new Date(appt.appointment_time),
-        isBooked: true,
-      }));
+      const duration = 30 * 60 * 1000;
+
+      const evs = data.map((appt) => {
+        const startDate = new Date(appt.appointment_time);
+        return {
+          title: appt.patient_id === user.id ? "Saját foglalás" : "Foglalt",
+          start: startDate,
+          end: new Date(startDate.getTime() + duration),
+          isMine: appt.patient_id === user.id,
+          isBooked: true,
+        };
+      });
+
       setEvents(evs);
     })();
-  }, [doctorId]);
+  }, [doctorId, user]);
 
   if (loading) return <div>Betöltés folyamatban...</div>;
 
   // Kattintás egy szabad időpontra
   // Helper a MySQL dátumformátumhoz
   const formatToMySQL = (date) => {
-    return date.toISOString().slice(0, 19).replace("T", " ");
+    const pad = (n) => n.toString().padStart(2, "0");
+    const year = date.getFullYear();
+    const month = pad(date.getMonth() + 1);
+    const day = pad(date.getDate());
+    const hours = pad(date.getHours());
+    const minutes = pad(date.getMinutes());
+    const seconds = pad(date.getSeconds());
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
   };
 
   const handleSelectSlot = async ({ start, end }) => {
     const now = new Date();
+    const duration = 30 * 60 * 1000;
 
-    // 1) Múltbeli időpont tiltása
     if (start < now) {
       alert("Múltbeli időpontra nem foglalhatsz.");
       return;
     }
 
-    // 2) Ha már foglalt, ne engedjük
     const alreadyBooked = events.find(
       (ev) => ev.start.getTime() === start.getTime(),
     );
+
     if (alreadyBooked) {
-      alert("Ez az időpont már foglalt!");
+      alert("Ez az időpont már foglalt.");
       return;
     }
 
-    // 3) Megerősítő ablak
     const localDateTime = start.toLocaleString("hu-HU", {
       year: "numeric",
       month: "2-digit",
@@ -80,7 +95,6 @@ export default function TimeTablePage() {
     const ok = window.confirm(
       `Biztosan foglalsz erre az időpontra: ${localDateTime}\n${doctorName}-hoz?`,
     );
-
     if (!ok) return;
 
     try {
@@ -89,14 +103,14 @@ export default function TimeTablePage() {
       });
 
       const newEvent = {
-        title: "Foglalt",
+        title: "Saját foglalás",
         start,
-        end,
+        end: new Date(start.getTime() + duration),
         isBooked: true,
+        isMine: true,
       };
 
       setEvents((prev) => [...prev, newEvent]);
-
       alert("Időpont sikeresen lefoglalva!");
     } catch (error) {
       console.error(error);
@@ -126,8 +140,9 @@ export default function TimeTablePage() {
         timeslots={2}
         eventPropGetter={(event) => ({
           style: {
-            backgroundColor: event.isBooked ? "#e1528f" : "#4caf50",
+            backgroundColor: event.isMine ? "#4caf50" : "#888888",
             color: "white",
+            pointerEvents: "none",
           },
         })}
       />
