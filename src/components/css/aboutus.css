@@ -1,0 +1,95 @@
+/* Modern, kétoszlopos Rólunk oldal stílus */
+.aboutus-bg {
+  min-height: 100vh;
+  background: #f7fafd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.aboutus-card {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 2px 16px rgba(25,118,210,0.10);
+  padding: 48px 56px;
+  display: flex;
+  flex-direction: row;
+  gap: 48px;
+  max-width: 1100px;
+  width: 100%;
+}
+
+.aboutus-left {
+  flex: 1 1 340px;
+  min-width: 260px;
+}
+
+.aboutus-label {
+  color: #888;
+  font-size: 1.1em;
+  margin-bottom: 8px;
+}
+
+.aboutus-headline {
+  font-size: 2em;
+  font-weight: 700;
+  color: #232323;
+  margin-bottom: 18px;
+}
+
+.aboutus-desc {
+  color: #444;
+  font-size: 1.08em;
+  line-height: 1.6;
+}
+
+.aboutus-features {
+  flex: 1 1 420px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  justify-content: center;
+}
+
+.aboutus-feature {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  background: #f3f7fd;
+  border-radius: 10px;
+  padding: 18px 18px 16px 18px;
+  box-shadow: 0 1px 6px rgba(25,118,210,0.06);
+}
+
+.aboutus-feature-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  background: #e3f0ff;
+  color: #1976d2;
+  font-size: 1.7em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2px;
+}
+
+.aboutus-feature-title {
+  font-weight: 600;
+  color: #232323;
+  font-size: 1.13em;
+  margin-bottom: 4px;
+}
+
+.aboutus-feature-desc {
+  color: #555;
+  font-size: 1em;
+}
+
+@media (max-width: 900px) {
+  .aboutus-card {
+    flex-direction: column;
+    gap: 32px;
+    padding: 24px 8vw;
+  }
+}

@@ -1,10 +1,11 @@
 import React, { useContext } from "react";
-import { NavLink } from "react-router";
+import { NavLink, useNavigate } from "react-router";
 import { AuthContext } from "../contexts/AuthContext";
 import "./css/navigation.css";
 
 export default function Navigation() {
   const { user, logout } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   // Orvos-specifikus menüpontok
   const doctorNavItems = [
@@ -25,6 +26,15 @@ export default function Navigation() {
     { path: "/doctors", label: "Orvosok" },
   ];
 
+  // Admin-specifikus menüpontok
+  const adminNavItems = [
+    { path: "/", label: "Kezdőlap" },
+    { path: "/profile", label: "Profilom" },
+    { path: "/doctors", label: "Orvosok" },
+    { path: "/patients", label: "Páciensek" },
+    { path: "/specialorders", label: "Szakrendelések" },
+  ];
+
   // Fix menüpontok minden fióknál
   const fixedNavItems = [
     { path: "/aboutus", label: "Rólunk" },
@@ -35,49 +45,32 @@ export default function Navigation() {
   // Mindig jelenjen meg a navigációs sáv, ha nincs user, csak a fix menüpontok, de a szerkezet egységes marad
   return (
     <header>
-      <nav className="headnav d-flex justify-content-between align-items-center p-2">
-        <p>
-          <strong>LOGO</strong>
-        </p>
-        {user ? (
-          <div className="dropdown">
-            <button
-              className="btn btn-secondary dropdown-toggle"
-              type="button"
-              id="userDropdown"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              Bejelentkezett fiók {user.name}
-            </button>
-            <ul className="dropdown-menu" aria-labelledby="userDropdown">
-              <li>
-                <NavLink className="dropdown-item" to="/profile">
-                  Profilom
-                </NavLink>
-              </li>
-              <li>
-                <button
-                  className="dropdown-item"
-                  onClick={() => {
-                    logout();
-                  }}
-                >
-                  Kijelentkezés
-                </button>
-              </li>
-            </ul>
-          </div>
-        ) : (
-          <div>
-            <NavLink className="btn btn-primary me-2" to="/login">
-              Bejelentkezés
-            </NavLink>
-            <NavLink className="btn btn-outline-primary" to="/register">
-              Regisztráció
-            </NavLink>
-          </div>
-        )}
+      <nav className="headnav modern-headnav">
+        <div className="headnav-logo">
+          <span className="logo-circle">
+            <img src="/logo.png" alt="LOGO" className="logo-img" />
+          </span>
+          <span className="logo-text">Betegnyilvántartó</span>
+        </div>
+        <div className="headnav-account">
+          {user ? (
+            <div className="account-info">
+              <span className="account-name">{user.name}</span>
+              <button className="account-btn" onClick={logout}>
+                Kijelentkezés
+              </button>
+            </div>
+          ) : (
+            <div>
+              <NavLink className="account-btn" to="/login">
+                Bejelentkezés
+              </NavLink>
+              <NavLink className="account-btn secondary" to="/register">
+                Regisztráció
+              </NavLink>
+            </div>
+          )}
+        </div>
       </nav>
       <nav className="sidenav">
         <ul>
@@ -95,60 +88,9 @@ export default function Navigation() {
                 <NavLink to={item.path}>{item.label}</NavLink>
               </li>
             ))}
-        </ul>
-        <ul className="fixed-bottom-nav">
-          {fixedNavItems.map((item) => (
-            <li key={item.path}>
-              <NavLink to={item.path}>{item.label}</NavLink>
-            </li>
-          ))}
-        </ul>
-      </nav>
-    </header>
-  );
-
-  // Orvos-specifikus menüpontok csak orvosnak
-  const showDoctorNav = user.role === "doctor";
-
-  return (
-    <header>
-      <nav className="headnav d-flex justify-content-between align-items-center p-2">
-        <p>
-          <strong>LOGO</strong>
-        </p>
-        <div className="dropdown">
-          <button
-            className="btn btn-secondary dropdown-toggle"
-            type="button"
-            id="userDropdown"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            Bejelentkezett fiók {user.name}
-          </button>
-          <ul className="dropdown-menu" aria-labelledby="userDropdown">
-            <li>
-              <NavLink className="dropdown-item" to="/profile">
-                Profilom
-              </NavLink>
-            </li>
-            <li>
-              <button
-                className="dropdown-item"
-                onClick={() => {
-                  logout();
-                }}
-              >
-                Kijelentkezés
-              </button>
-            </li>
-          </ul>
-        </div>
-      </nav>
-      <nav className="sidenav">
-        <ul>
-          {showDoctorNav &&
-            doctorNavItems.map((item) => (
+          {user &&
+            user.role === "admin" &&
+            adminNavItems.map((item) => (
               <li key={item.path}>
                 <NavLink to={item.path}>{item.label}</NavLink>
               </li>

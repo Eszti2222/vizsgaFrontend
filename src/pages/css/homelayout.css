@@ -1,39 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Roboto:wght@400;700&display=swap');
+
 /* src/pages/css/homeLayout.css */
 
 /* A teljes oldal konténer */
 .home-layout {
-  font-family: sans-serif;
+  font-family: 'Montserrat', 'Roboto', Arial, sans-serif;
 }
 
 /* A tartalom bal oldali és felső margója:
    - 240px: sidenav szélesség (navigation.css-ben)
    - 60px: headnav magasság (navigation.css-ben) */
 .home-layout__content {
-  margin-left: 240px;
+  margin-left: 160px;
   margin-top: 60px;
-
-  padding: 24px;
+  padding: 8px 0 0 4px;
   box-sizing: border-box;
-
   min-height: calc(100vh - 60px);
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
 }
 
 /* Üdvözlő rész */
 .home-layout__welcome h1 {
+  font-family: 'Montserrat', Arial, sans-serif;
+  font-size: 2.2em;
+  color: #1976d2;
   margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.home-layout__welcome {
+  margin-left: 0;
+  max-width: 700px;
+}
+
+.home-layout__welcome p {
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 1.15em;
+  color: #333;
+  margin-bottom: 18px;
 }
 
 /* Kártyák blokk */
 .home-layout__cards {
-  margin-top: 24px;
+  margin-top: 18px;
+  margin-left: 0;
 }
 
 .home-layout__cards-grid {
   display: flex;
-  gap: 16px;
-  margin-top: 12px;
+  gap: 18px;
+  margin-top: 24px;
+  justify-content: flex-start;
 }
 
 /* Kártya */
@@ -45,10 +64,48 @@
   background: #fff;
 }
 
+.info-card.clickable {
+  background: linear-gradient(135deg, #e3f0ff 0%, #fff 100%);
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(25,118,210,0.08);
+  padding: 28px 18px;
+  font-size: 1.15em;
+  font-weight: 600;
+  color: #1976d2;
+  cursor: pointer;
+  transition: box-shadow 0.2s, background 0.2s;
+  min-width: 140px;
+  text-align: center;
+  font-family: 'Montserrat', Arial, sans-serif;
+  border: none;
+}
+
+.info-card.clickable:hover, .info-card.clickable:focus {
+  background: #e3f0ff;
+  box-shadow: 0 4px 24px rgba(25,118,210,0.16);
+}
+
+.info-card.clickable .card-desc {
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 1em;
+  color: #555;
+  margin-top: 8px;
+}
+
 /* Footer jellegű alsó rész */
 .home-layout__footer {
   margin-top: auto;
   padding-top: 24px;
   font-size: 0.9rem;
   color: #555;
+}
+
+@media (max-width: 900px) {
+  .home-layout__content {
+    margin-left: 0;
+    padding-left: 0;
+  }
+  .home-layout__cards-grid {
+    justify-content: center;
+  }
 }

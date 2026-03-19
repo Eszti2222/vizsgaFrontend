@@ -1,6 +1,19 @@
-main {
+.layout-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.main-content {
+  flex: 1 0 auto;
   margin-left: 240px;
-  padding-top: 60px;
   padding: 20px;
   box-sizing: border-box;
+}
+
+@media (max-width: 900px) {
+  .main-content {
+    margin-left: 0;
+  }
 }
