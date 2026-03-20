@@ -30,7 +30,7 @@ export default function Navigation() {
   const adminNavItems = [
     { path: "/", label: "Kezdőlap" },
     { path: "/profile", label: "Profilom" },
-    { path: "/doctors", label: "Orvosok" },
+    { path: "/adoctors", label: "Orvosok" },
     { path: "/patients", label: "Páciensek" },
     { path: "/specialorders", label: "Szakrendelések" },
   ];

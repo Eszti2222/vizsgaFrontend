@@ -25,6 +25,7 @@ import DoctorsPage from "./pages/DoctorsPage";
 import DoctorDetailsPage from "./pages/DoctorDetailsPage";
 import { DoctorProvider } from "./contexts/DoctorContext";
 import PatientBookedAppointmentsPage from "./pages/PatientBookedAppointmentsPage";
+import AdminUserList from "./components/admin/AdminUsersList";
 
 function App() {
   const router = createBrowserRouter([
@@ -70,7 +71,10 @@ function App() {
           path: "/doctors",
           element: <DoctorsPage />,
         },
-
+  {
+          path: "/adoctors",
+          element: <AdminUserList />,
+        },
         {
           path: "/doctors/:id",
           element: <DoctorDetailsPage />,
