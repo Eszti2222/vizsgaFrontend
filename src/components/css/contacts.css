@@ -1,0 +1,128 @@
+/* Világos, letisztult elérhetőségek oldal stílus */
+.contacts-bg {
+  min-height: 0;
+  background: #f7fafd;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 32px;
+  padding-bottom: 32px;
+  height: 100vh;
+  box-sizing: border-box;
+}
+
+.contacts-card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+  padding: 36px 48px 32px 48px;
+  min-width: 420px;
+  max-width: 900px;
+  width: 100%;
+}
+
+.contacts-card.large {
+  padding: 56px 80px 48px 80px;
+  min-width: 700px;
+  max-width: 1200px;
+  background: linear-gradient(135deg, #e3f0ff 0%, #fff 100%);
+  border-radius: 22px;
+  box-shadow: 0 8px 32px rgba(25,118,210,0.10);
+}
+
+.contacts-card h2 {
+  font-size: 1.6em;
+  font-weight: 600;
+  margin-bottom: 18px;
+  color: #232323;
+}
+
+.contacts-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px 32px;
+  justify-items: center;
+  margin-top: 18px;
+}
+
+.contact-item {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 2px 12px rgba(25,118,210,0.08);
+  padding: 32px 18px 24px 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 220px;
+  max-width: 320px;
+  margin-bottom: 0;
+  transition: box-shadow 0.2s, transform 0.2s;
+  border: 2px solid #e3f0ff;
+  position: relative;
+}
+.contact-item:hover {
+  box-shadow: 0 8px 32px rgba(25,118,210,0.18);
+  transform: translateY(-6px) scale(1.03);
+  border-color: #1976d2;
+}
+
+.contact-avatar {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #b3c6e0 0%, #e3f0ff 100%);
+  margin-bottom: 10px;
+  margin-right: 0;
+  box-shadow: 0 2px 8px rgba(25,118,210,0.10);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2em;
+  color: #1976d2;
+}
+
+.contact-name {
+  font-weight: 700;
+  color: #1976d2;
+  font-size: 1.15em;
+  margin-bottom: 2px;
+}
+
+.contact-company {
+  color: #888;
+  font-size: 1em;
+  margin-bottom: 6px;
+}
+
+.contact-desc {
+  color: #444;
+  font-size: 1em;
+  margin-bottom: 12px;
+  text-align: center;
+  min-height: 40px;
+}
+
+.contact-email, .contact-phone {
+  color: #1976d2;
+  font-size: 1em;
+  margin-top: 2px;
+  margin-bottom: 0;
+  font-weight: 500;
+  word-break: break-all;
+}
+
+@media (max-width: 900px) {
+  .contacts-list {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 600px) {
+  .contacts-list {
+    grid-template-columns: 1fr;
+  }
+  .contacts-card.large {
+    padding: 18px 4vw;
+    min-width: 0;
+    max-width: 100vw;
+  }
+}

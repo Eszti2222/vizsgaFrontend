@@ -27,27 +27,20 @@ myAxios.interceptors.request.use(
 
 // API helper functions
 
-// Saját páciensek listázása (GET /patient/o_id)
-export const getDoctorPatients = async (doctorId) => {
-  return myAxios.get(`/patient/${doctorId}`);
+export const getDoctorPatients = async () => {
+  return myAxios.get("/doctor/patients");
 };
 
-
-// Egy páciens kiválasztása (GET /patient/p_id)
-export const getPatientWithAppointments = async (patientId) => {
-  return myAxios.get(`/patient/${patientId}`);
+export const getDoctorPatient = async (patientId) => {
+  return myAxios.get(`/doctor/patients/${patientId}`);
 };
 
-
-// Páciensek időpontjainak listázása (GET /appointments/o_id)
-export const getDoctorAppointments = async (doctorId) => {
-  return myAxios.get(`/appointments/${doctorId}`);
+export const getDoctorAppointments = async () => {
+  return myAxios.get("/doctor/appointments");
 };
 
-
-// Dokumentum feltöltés pácienshez (POST /documents)
-export const uploadDocument = async (formData) => {
-  return myAxios.post(`/documents`, formData, {
+export const uploadDoctorDocument = async (formData) => {
+  return myAxios.post("/doctor/documents", formData, {
     headers: { "Content-Type": "multipart/form-data" },
   });
 };

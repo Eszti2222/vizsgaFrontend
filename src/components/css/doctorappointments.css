@@ -1,0 +1,46 @@
+/* Sötét háttér az egész oldalnak */
+.doctor-appointments-bg {
+  min-height: 100vh;
+  background: #232323;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.doctor-appointments-card {
+  background: #fff;
+  border-radius: 6px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.13);
+  padding: 36px 48px 32px 48px;
+  min-width: 420px;
+  max-width: 600px;
+  width: 100%;
+}
+
+.doctor-appointments-card h2 {
+  font-size: 2em;
+  font-weight: 500;
+  margin-bottom: 18px;
+  color: #232323;
+}
+
+.doctor-appointments-filters {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 18px;
+}
+
+.doctor-appointments-card select {
+  font-size: 1.1em;
+  padding: 8px 12px;
+  border-radius: 4px;
+  border: 1px solid #bbb;
+  background: #fafafa;
+  color: #232323;
+}
+
+.doctor-appointments-desc {
+  color: #666;
+  font-size: 1em;
+}

@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap');
+
 /* --- Sidebar alap --- */
 header {
   height: 10vh;
@@ -11,15 +13,18 @@ header nav.sidenav {
   width: 240px;
   height: 100vh;
 
-  background: #f5f5f5;
-  border-right: 1px solid #ddd;
+  background: linear-gradient(135deg, #e3f0ff 0%, #f9f9f9 100%);
+  border-right: 2px solid #1976d2;
 
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 
-  padding: 20px;
+  padding: 24px 18px 18px 18px;
   box-sizing: border-box;
+
+  font-family: 'Montserrat', 'Roboto', Arial, sans-serif;
+  z-index: 100;
 }
 
 /* --- listák reset --- */
@@ -38,29 +43,37 @@ header nav.sidenav ul:first-child {
 header nav.sidenav ul:nth-child(2) {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
 }
 
 /* --- Link stílus --- */
 header nav.sidenav a {
   display: block;
-  padding: 10px 12px;
+  padding: 12px 16px;
 
   text-decoration: none;
-  color: #333;
+  color: #1976d2;
 
-  border-radius: 8px;
-  transition: 0.2s;
+  border-radius: 10px;
+  font-weight: 600;
+  font-family: 'Montserrat', Arial, sans-serif;
+  font-size: 1.08em;
+  letter-spacing: 0.5px;
+
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
 }
 
 /* Hover */
 header nav.sidenav a:hover {
-  background: #e6e6e6;
+  background: #1976d2;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.10);
 }
 
 /* Aktív NavLink */
 header nav.sidenav a.active {
-  background: #d9d9d9;
+  background: #1565c0;
+  color: #fff;
   font-weight: bold;
 }
 
@@ -72,22 +85,142 @@ header nav.sidenav a.active {
 
   height: 60px;
 
-  background: #ffffff;
-  border-bottom: 1px solid #ddd;
+  background: #1976d2;
+  border-bottom: 2px solid #1565c0;
 
   display: flex;
   align-items: center;
   justify-content: space-between;
 
-  padding: 0 20px;
-  box-sizing: border-box;
-
-  z-index: 1000;
+  color: #fff;
+  font-family: 'Montserrat', Arial, sans-serif;
+  z-index: 101;
 }
 
-/* LOGO */
-.headnav p {
-  margin: 0;
-  font-size: 18px;
-  color: #222;
+.headnav strong {
+  color: #fff;
+  font-family: 'Montserrat', Arial, sans-serif;
+  font-size: 1.2em;
+  letter-spacing: 1px;
+}
+
+.headnav .btn, .headnav .dropdown-toggle {
+  font-family: 'Montserrat', Arial, sans-serif;
+  font-weight: 600;
+  font-size: 1em;
+}
+
+@media (max-width: 900px) {
+  header nav.sidenav {
+    position: static;
+    width: 100%;
+    height: auto;
+    flex-direction: row;
+    padding: 10px 4px;
+  }
+  .headnav {
+    left: 0;
+  }
+}
+
+.modern-headnav {
+  background: #fff;
+  border-bottom: 2px solid #e3f0ff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  height: 70px;
+  font-family: 'Montserrat', Arial, sans-serif;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.07);
+}
+
+.headnav-logo {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.logo-circle {
+  width: 48px;
+  height: 48px;
+  background: #e3f0ff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.10);
+}
+
+.logo-img {
+  width: 32px;
+  height: 32px;
+}
+
+.logo-text {
+  font-size: 1.35em;
+  font-weight: 600;
+  color: #1976d2;
+  letter-spacing: 1px;
+}
+
+.headnav-account {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.account-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.account-name {
+  font-weight: 600;
+  color: #1976d2;
+  font-size: 1.08em;
+}
+
+.account-btn {
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  border-radius: 18px;
+  padding: 8px 18px;
+  font-size: 1em;
+  font-family: 'Montserrat', Arial, sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-left: 8px;
+}
+
+.account-btn.secondary {
+  background: #e3f0ff;
+  color: #1976d2;
+  border: 1px solid #1976d2;
+}
+
+.account-btn:hover {
+  background: #1565c0;
+  color: #fff;
+}
+
+@media (max-width: 900px) {
+  .modern-headnav {
+    padding: 0 8px;
+    height: 56px;
+  }
+  .logo-circle {
+    width: 36px;
+    height: 36px;
+  }
+  .logo-img {
+    width: 24px;
+    height: 24px;
+  }
+  .logo-text {
+    font-size: 1em;
+  }
 }

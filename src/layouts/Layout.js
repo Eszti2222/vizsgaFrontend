@@ -2,14 +2,16 @@ import React from "react";
 import Navigation from "../pages/Navigation";
 import { Outlet } from "react-router";
 import "./css/layout.css";
+import Footer from "../components/Footer";
 
 export default function Layout() {
   return (
-    <div>
+    <div className="layout-container">
       <Navigation />
-      <main>
+      <main className="main-content">
         <Outlet />
       </main>
+      <Footer />
     </div>
   );
 }

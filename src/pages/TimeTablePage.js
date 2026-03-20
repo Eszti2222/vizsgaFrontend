@@ -5,8 +5,17 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import { AuthContext } from "../contexts/AuthContext";
 import { myAxios } from "../services/api";
 import { useParams, useLocation } from "react-router";
+import CustomToolbar from "../components/calendar/CustomToolbar";
 
 const localizer = momentLocalizer(moment);
+const formats = {
+  dayRangeHeaderFormat: ({ start, end }, culture, localizer) =>
+    `${localizer.format(start, "YYYY.MM.DD.", culture)} – ${localizer.format(
+      end,
+      "YYYY.MM.DD.",
+      culture,
+    )}`,
+};
 
 export default function TimeTablePage() {
   const { loadUser, user, loading } = useContext(AuthContext);
@@ -14,12 +23,13 @@ export default function TimeTablePage() {
   const { id: doctorId } = useParams();
   const location = useLocation();
   const doctorName = location.state?.doctorName || "az orvos";
+  const [currentDate, setCurrentDate] = useState(new Date());
 
   //naptár konfiguráció
   const minTime = new Date();
   minTime.setHours(8, 0, 0, 0);
   const maxTime = new Date();
-  maxTime.setHours(22, 0, 0, 0);
+  maxTime.setHours(17, 0, 0, 0);
 
   // Betöltjük a felhasználót
   useEffect(() => {
@@ -132,10 +142,15 @@ export default function TimeTablePage() {
         style={{ height: 600 }}
         selectable
         onSelectSlot={handleSelectSlot}
-        views={["work_week", "day"]}
+        date={currentDate}
+        onNavigate={(date) => setCurrentDate(date)}
+        defaultDate={new Date()}
+        views={{ work_week: true, day: true }}
         defaultView="work_week"
         min={minTime}
         max={maxTime}
+        formats={formats}
+        components={{ toolbar: CustomToolbar }}
         step={30}
         timeslots={2}
         eventPropGetter={(event) => ({
