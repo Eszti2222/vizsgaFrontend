@@ -6,7 +6,7 @@ import AdminLayout from "../../layouts/AdminLayout";
 import { AuthContext } from "../../contexts/AuthContext";
 import { myAxios } from "../../services/api";
 
-export default function AdminUserList(){
+export default function AdminPatientList(){
     const { user } = useContext(AuthContext);
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -32,35 +32,29 @@ export default function AdminUserList(){
         <AdminLayout>
             <div className="admin-users-list-page">
                 <h2>Orvos felhasználók listája</h2>
-				{loading && <p>Betöltés...</p>}
-				{error && <p className="text-danger">{error}</p>}
-				{!loading && !error && users.length === 0 && <p>Nincs regisztrált orvos</p>}
-				{!loading && !error && users.length > 0 && (
-					<table className="admin_users_table">
-						<thead>
-							<tr>
-								<th>id</th>
-								<th>Név</th>
-								<th>Email</th>
-                                <th>Működési nyilvántartási szám</th>
-                                <th>Specializáció</th>
-								<th>Rendelő száma</th>
-							</tr>
-						</thead>
-						<tbody>
-							{users.map((user) => (
-								<tr key={user.id}>
+                {loading && <p>Betöltés...</p>}
+                {error && <p className="text-danger">{error}</p>}
+                {!loading && !error && users.length === 0 && <p>Nincs regisztrált páciens</p>}
+                {!loading && !error && users.length > 0 && (
+                    <table className="admin_patients_table">
+                        <thead>
+                            <tr>
+                                <th>id</th>
+                                <th>Név</th>
+                                <th>Email</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {users.map((user) => (
+                                <tr key={user.id}>
                                     <td>{user.id}</td>
                                     <td>{user.name}</td>
-									<td>{user.email}</td>
-                                    <td>{user.license_number}</td>
-									<td>{user.specialization}</td>
-									<td>{user.office_location_id}</td>
-								</tr>
-							))}
-						</tbody>
-					</table>
-				)}
+                                    <td>{user.email}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                )}
             </div>
         </AdminLayout>
     );
