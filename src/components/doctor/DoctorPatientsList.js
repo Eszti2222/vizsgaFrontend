@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import DoctorLayout from "../../layouts/DoctorLayout";
 import { AuthContext } from "../../contexts/AuthContext";
 import { myAxios } from "../../services/api";
+import PatientComponent from "./PatientComponent";
 
 export default function DoctorPatientsList() {
 	const { user } = useContext(AuthContext);
@@ -13,7 +14,7 @@ export default function DoctorPatientsList() {
 		if (!user || user.role !== "doctor") return;
 		setLoading(true);
 		myAxios
-			.get(`/api/patient/${user.id}`)
+			.get(`/api/doctor/patients/${user.id}`)
 			.then((res) => {
 				setPatients(res.data);
 				setLoading(false);
@@ -41,13 +42,9 @@ export default function DoctorPatientsList() {
 							</tr>
 						</thead>
 						<tbody>
-							{patients.map((patient) => (
-								<tr key={patient.id}>
-									<td>{patient.name}</td>
-									<td>{patient.taj}</td>
-									<td>{patient.email}</td>
-								</tr>
-							))}
+							{patients.map((patient, i) => {
+								return <PatientComponent patient={patient} key={i} />;
+							})}
 						</tbody>
 					</table>
 				)}
