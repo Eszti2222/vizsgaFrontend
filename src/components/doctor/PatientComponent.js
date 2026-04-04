@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router";
 
 export default function PatientComponent({ patient }) {
   return (
@@ -17,13 +16,10 @@ export default function PatientComponent({ patient }) {
           {patient.birth_date || "Nincs megadva"}
         </p>
 
-        {/* Részletek gomb – átvisz az adott orvos oldalára */}
-        <Link
-          to={`/doctors/${patient.id}`}
-          className="btn btn-primary mt-2"
-        >
-          Részletek
-        </Link>
+        <p className="card-text">
+          <strong>Email:</strong>{" "}
+          {patient.email || "Nincs megadva"}
+        </p>
       </div>
     </div>
   );

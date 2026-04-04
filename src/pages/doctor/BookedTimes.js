@@ -12,17 +12,22 @@ export default function BookedTimes() {
 
 	useEffect(() => {
 		if (!user || user.role !== "doctor") return;
-		setLoading(true);
-		myAxios
-			.get(`/api/appointments/${user.id}`)
-			.then((res) => {
-				setAppointments(res.data);
-				setLoading(false);
-			})
-			.catch((err) => {
+
+		const loadAppointments = async () => {
+			setLoading(true);
+			setError(null);
+
+			try {
+				const res = await myAxios.get("/api/doctor/appointments");
+				setAppointments(Array.isArray(res.data) ? res.data : []);
+			} catch (error) {
 				setError("Nem sikerült lekérni az időpontokat.");
+			} finally {
 				setLoading(false);
-			});
+			}
+		};
+
+		loadAppointments();
 	}, [user]);
 
 	return (

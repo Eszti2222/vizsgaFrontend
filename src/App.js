@@ -16,7 +16,6 @@ import AdminHomePage from "./pages/admin/AdminHomePage";
 import PatientHomePage from "./pages/PatientHomePage";
 import DoctorPatientsList from "./components/doctor/DoctorPatientsList";
 import DoctorAppointmentsList from "./components/doctor/DoctorAppointmentsList";
-import DoctorPatientDetails from "./components/doctor/DoctorPatientDetails";
 import DocumentUpload from "./components/doctor/DocumentUpload";
 import TimeTablePage from "./pages/TimeTablePage";
 import ProfilePage from "./pages/ProfilePage";
@@ -71,7 +70,7 @@ function App() {
           path: "/doctors",
           element: <DoctorsPage />,
         },
-  {
+       {
           path: "/adoctors",
           element: <AdminUserList />,
         },
@@ -90,10 +89,6 @@ function App() {
         {
           path: "/appointments-list",
           element: <DoctorAppointmentsList />,
-        },
-        {
-          path: "/patients/:id",
-          element: <DoctorPatientDetails />,
         },
         {
           path: "/document-upload",
