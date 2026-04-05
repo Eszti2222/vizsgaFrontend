@@ -19,16 +19,17 @@
   flex-direction: column;
   align-items: stretch;
   width: 100%;
-  max-width: 1200px;
+  max-width: 1240px;
 }
 
 /* Üdvözlő rész */
 .home-layout__welcome h1 {
   font-family: 'Montserrat', Arial, sans-serif;
-  font-size: 2.2em;
-  color: #1976d2;
+  font-size: clamp(1.8rem, 2.7vw, 2.45rem);
+  color: #0e5fa6;
   margin-bottom: 8px;
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: 0.2px;
 }
 
 .home-layout__welcome {
@@ -38,8 +39,8 @@
 
 .home-layout__welcome p {
   font-family: 'Roboto', Arial, sans-serif;
-  font-size: 1.15em;
-  color: #333;
+  font-size: 1.08rem;
+  color: #415777;
   margin-bottom: 18px;
 }
 
@@ -68,24 +69,31 @@
 }
 
 .info-card.clickable {
-  background: linear-gradient(135deg, #e3f0ff 0%, #fff 100%);
-  border-radius: 16px;
-  box-shadow: 0 2px 12px rgba(25,118,210,0.08);
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.96), rgba(239, 248, 255, 0.95));
+  border-radius: 20px;
+  border: 1px solid #d3e4f5;
+  box-shadow: 0 8px 22px rgba(18, 75, 129, 0.12);
   padding: 24px 18px;
   font-size: 1.08em;
   font-weight: 600;
-  color: #1976d2;
+  color: #145e9e;
   cursor: pointer;
-  transition: box-shadow 0.2s, background 0.2s;
+  transition: box-shadow 0.2s, background 0.2s, transform 0.2s, border-color 0.2s;
   min-height: 190px;
   text-align: center;
   font-family: 'Montserrat', Arial, sans-serif;
-  border: none;
 }
 
 .info-card.clickable:hover, .info-card.clickable:focus {
-  background: #e3f0ff;
-  box-shadow: 0 4px 24px rgba(25,118,210,0.16);
+  background: linear-gradient(145deg, #ffffff, #e7f3ff);
+  box-shadow: 0 16px 28px rgba(11, 64, 114, 0.2);
+  border-color: #9cc2e8;
+  transform: translateY(-3px);
+}
+
+.info-card.clickable h3 {
+  margin: 2px 0 6px;
 }
 
 .info-card.clickable .card-desc {
