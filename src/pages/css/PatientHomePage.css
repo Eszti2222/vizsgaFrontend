@@ -3,7 +3,7 @@
   min-height: 100vh;
 }
 
-.main-content {
+.patient-home-container .main-content {
   flex: 1;
   padding: 24px;
 }

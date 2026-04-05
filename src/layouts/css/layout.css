@@ -8,12 +8,18 @@
 .main-content {
   flex: 1 0 auto;
   margin-left: 240px;
+  margin-top: 70px;
+  width: calc(100% - 240px);
   padding: 20px;
   box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 @media (max-width: 900px) {
   .main-content {
     margin-left: 0;
+    margin-top: 58px;
+    width: 100%;
+    padding: 14px;
   }
 }
