@@ -2,10 +2,12 @@ import React, { useContext } from "react";
 import { Link } from "react-router";
 import { AuthContext } from "../contexts/AuthContext";
 import { FaUserCircle } from "react-icons/fa";
+import ProfileContactEditForm from "../components/patient/ProfileContactEditForm";
 import "./css/profilepage.css";
 
 export default function ProfilePage() {
-    const { user } = useContext(AuthContext);
+    const { user, loadUser } = useContext(AuthContext);
+
     if (!user) {
         return (
             <div className="profile-page">
@@ -45,36 +47,7 @@ export default function ProfilePage() {
                             <span>{user.birth_date}</span>
                         </div>
                     )}
-                    {user.country && (
-                        <div className="profile-row">
-                            <span className="profile-label">Ország:</span>
-                            <span>{user.country}</span>
-                        </div>
-                    )}
-                    {user.city && (
-                        <div className="profile-row">
-                            <span className="profile-label">Város:</span>
-                            <span>{user.city}</span>
-                        </div>
-                    )}
-                    {user.postal_code && (
-                        <div className="profile-row">
-                            <span className="profile-label">Irányítószám:</span>
-                            <span>{user.postal_code}</span>
-                        </div>
-                    )}
-                    {user.street_address && (
-                        <div className="profile-row">
-                            <span className="profile-label">Cím:</span>
-                            <span>{user.street_address}</span>
-                        </div>
-                    )}
-                    {user.phone_number && (
-                        <div className="profile-row">
-                            <span className="profile-label">Telefonszám:</span>
-                            <span>{user.phone_number}</span>
-                        </div>
-                    )}
+                    <ProfileContactEditForm user={user} loadUser={loadUser} />
                   </>
                 )}
                 {user.role && (

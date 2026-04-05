@@ -1,44 +1,126 @@
-import React, { useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import DoctorLayout from "../../layouts/DoctorLayout";
-import { AuthContext } from "../../contexts/AuthContext";
 import { myAxios } from "../../services/api";
 import "../css/documentupload.css";
 
 export default function DocumentUpload() {
-	const { user } = useContext(AuthContext);
 	const [file, setFile] = useState(null);
 	const [patientTaj, setPatientTaj] = useState("");
-	const [specialization, setSpecialization] = useState("");
+	const [selectedType, setSelectedType] = useState("");
+	const [documentTypes, setDocumentTypes] = useState([]);
+	const [typesLoading, setTypesLoading] = useState(true);
 	const [date, setDate] = useState("");
 	const [message, setMessage] = useState("");
 	const [error, setError] = useState("");
 	const [loading, setLoading] = useState(false);
 
+	useEffect(() => {
+		let mounted = true;
+
+		async function loadDocumentTypes() {
+			setTypesLoading(true);
+			setError("");
+
+			const endpoints = ["/api/document-types", "/api/document_types", "/api/document-type"];
+			let loaded = false;
+
+			for (const endpoint of endpoints) {
+				try {
+					const { data } = await myAxios.get(endpoint);
+					const source = Array.isArray(data)
+						? data
+						: Array.isArray(data?.data)
+							? data.data
+							: [];
+
+					const normalized = source
+						.map((item) => {
+							if (typeof item === "string") {
+								return { id: item, type: item };
+							}
+
+							if (item && typeof item === "object") {
+								const typeValue = item.type || item.name || item.document_type;
+								if (!typeValue) return null;
+
+								return {
+									id: item.id || item.document_type_id || typeValue,
+									type: typeValue,
+								};
+							}
+
+							return null;
+						})
+						.filter(Boolean);
+
+					if (mounted) {
+						setDocumentTypes(normalized);
+						if (normalized.length > 0) {
+							setSelectedType((prev) => prev || normalized[0].type);
+						}
+					}
+
+					loaded = true;
+					break;
+				} catch (_err) {
+					// Try next endpoint variant.
+				}
+			}
+
+			if (!loaded && mounted) {
+				setError("Nem sikerült betölteni a dokumentumtípusokat.");
+			}
+
+			if (mounted) {
+				setTypesLoading(false);
+			}
+		}
+
+		loadDocumentTypes();
+
+		return () => {
+			mounted = false;
+		};
+	}, []);
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		setMessage("");
 		setError("");
-		if (!file || !patientTaj || !specialization || !date) {
+		if (!file || !patientTaj || !selectedType || !date) {
 			setError("Minden mező kitöltése kötelező!");
 			return;
 		}
 		const formData = new FormData();
 		formData.append("file", file);
 		formData.append("taj", patientTaj);
-		formData.append("specialization", specialization);
+		formData.append("type", selectedType);
+
+		const selectedTypeEntry = documentTypes.find((docType) => docType.type === selectedType);
+		if (selectedTypeEntry?.id) {
+			formData.append("document_type_id", selectedTypeEntry.id);
+		}
+
 		formData.append("date", date);
 		setLoading(true);
 		try {
+			await myAxios.get("/sanctum/csrf-cookie");
 			await myAxios.post("/api/documents", formData, {
 				headers: { "Content-Type": "multipart/form-data" },
 			});
 			setMessage("Dokumentum sikeresen feltöltve!");
 			setFile(null);
 			setPatientTaj("");
-			setSpecialization("");
+			setSelectedType(documentTypes[0]?.type || "");
 			setDate("");
 		} catch (err) {
-			setError("Hiba történt a feltöltés során.");
+			if (err.response?.status === 422) {
+				setError("Validációs hiba. Ellenőrizd a mezőket.");
+			} else if (err.response?.status === 403) {
+				setError("Nincs jogosultság dokumentum feltöltéshez.");
+			} else {
+				setError("Hiba történt a feltöltés során.");
+			}
 		} finally {
 			setLoading(false);
 		}
@@ -50,7 +132,7 @@ export default function DocumentUpload() {
 				<div className="upload-card wireframe">
 					<h2>Dokumentum feltöltés</h2>
 					<p className="upload-desc">
-						Kitölthető űrlap szakterület megnevezésével, dokumentum feltöltéssel
+						Kitölthető űrlap dokumentumtípussal és dokumentum feltöltéssel
 					</p>
 					<form className="upload-form wireframe" onSubmit={handleSubmit}>
 						<div className="upload-grid">
@@ -84,15 +166,25 @@ export default function DocumentUpload() {
 									/>
 								</div>
 								<div className="form-group">
-									<label htmlFor="specialization">Szakterület</label>
-									<input
-										id="specialization"
-										type="text"
-										value={specialization}
-										onChange={(e) => setSpecialization(e.target.value)}
+									<label htmlFor="documentType">Dokumentumtípus</label>
+									<select
+										id="documentType"
+										value={selectedType}
+										onChange={(e) => setSelectedType(e.target.value)}
 										required
-										placeholder="Pl. Kardiológia"
-									/>
+										disabled={typesLoading || documentTypes.length === 0}
+									>
+										{typesLoading && <option value="">Típusok betöltése...</option>}
+										{!typesLoading && documentTypes.length === 0 && (
+											<option value="">Nincs elérhető dokumentumtípus</option>
+										)}
+										{!typesLoading &&
+											documentTypes.map((docType) => (
+												<option key={docType.id} value={docType.type}>
+													{docType.type}
+												</option>
+											))}
+									</select>
 								</div>
 								<div className="form-group">
 									<label htmlFor="file">Dokumentum</label>
@@ -108,7 +200,11 @@ export default function DocumentUpload() {
 										</label>
 									</div>
 								</div>
-								<button className="upload-btn" type="submit" disabled={loading}>
+								<button
+									className="upload-btn"
+									type="submit"
+									disabled={loading || typesLoading || documentTypes.length === 0}
+								>
 									{loading ? "Feltöltés..." : "Feltöltés"}
 								</button>
 								{message && <div className="upload-success">{message}</div>}

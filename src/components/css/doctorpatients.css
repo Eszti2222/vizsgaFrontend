@@ -3,11 +3,133 @@
 }
 
 .doctor-patients-list-page h2 {
+    margin-bottom: 0;
+}
+
+.doctor-patients-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
     margin-bottom: 1.5rem;
+}
+
+.patient-create-button,
+.patient-save-button {
+    border: 0;
+    border-radius: 0.75rem;
+    background: #0a7a5a;
+    color: #fff;
+    font-weight: 600;
+    padding: 0.85rem 1.25rem;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.patient-create-button:hover,
+.patient-save-button:hover {
+    background: #075f45;
+    transform: translateY(-1px);
+}
+
+.patient-cancel-button {
+    background: #d9e5e0;
+    color: #17352d;
+}
+
+.patient-cancel-button:hover {
+    background: #c3d6cf;
+}
+
+.patient-create-button:disabled,
+.patient-save-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.patient-create-form {
+    background: #f7fbfa;
+    border: 1px solid #d7e7e1;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.patient-create-form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+}
+
+.patient-form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+}
+
+.patient-form-field label {
+    font-weight: 600;
+    color: #17352d;
+}
+
+.patient-form-field input {
+    border: 1px solid #b8cec6;
+    border-radius: 0.75rem;
+    padding: 0.8rem 0.95rem;
+    background: #fff;
+}
+
+.patient-form-field input:focus {
+    outline: 2px solid #92d2bc;
+    border-color: #0a7a5a;
+}
+
+.patient-create-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.field-error,
+.form-error-message {
+    color: #b42318;
+}
+
+.field-error {
+    font-size: 0.9rem;
+}
+
+.form-success-message {
+    color: #0a7a5a;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.form-error-message {
+    margin-top: 1rem;
+    margin-bottom: 0;
 }
 
 .patients-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 1rem;
+}
+
+@media (max-width: 720px) {
+    .doctor-patients-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .patient-create-actions {
+        justify-content: stretch;
+    }
+
+    .patient-save-button,
+    .patient-create-button {
+        width: 100%;
+    }
 }

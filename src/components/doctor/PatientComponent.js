@@ -20,6 +20,31 @@ export default function PatientComponent({ patient }) {
           <strong>Email:</strong>{" "}
           {patient.email || "Nincs megadva"}
         </p>
+
+         <p className="card-text">
+          <strong>Telefon szám:</strong>{" "}
+          {patient.phone_number || "Nincs megadva"}
+        </p>
+
+        <p className="card-text">
+          <strong>Ország:</strong>{" "}
+          {patient.country || "Nincs megadva"}
+        </p>
+
+        <p className="card-text">
+          <strong>Város:</strong>{" "}
+          {patient.city || "Nincs megadva"}
+        </p>
+
+        <p className="card-text">
+          <strong>Irányítószám:</strong>{" "}
+          {patient.postal_code || "Nincs megadva"}
+        </p>
+
+        <p className="card-text">
+          <strong>Cím:</strong>{" "}
+          {patient.street_address || "Nincs megadva"}
+        </p>
       </div>
     </div>
   );
