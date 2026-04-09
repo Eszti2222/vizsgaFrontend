@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { myAxios } from "../services/api";
+import DoctorComponent from "../components/patient/DoctorComponent";
 
 export default function SpecialordersPage() {
   const [specializations, setSpecializations] = useState([]);
@@ -80,19 +81,8 @@ export default function SpecialordersPage() {
             <div className="row g-3">
               {filteredDoctors.map((doctor) => (
                 <div key={doctor.id} className="col-12 col-md-6 col-lg-4">
-                  <div className="card shadow-sm">
-                    <div className="card-body">
-                      <h5 className="card-title">{doctor.name}</h5>
-                      <p className="card-text">
-                        <strong>Email:</strong> {doctor.email}
-                      </p>
-                      <p className="card-text">
-                        <strong>Rendelő:</strong>{" "}
-                        {doctor.office_location || "Nincs megadva"}
-                      </p>
-                      {/* Ide fog jönni mindjárt a részletek gomb */}
-                    </div>
-                  </div>
+                  <DoctorComponent doctor={doctor} />
+
                 </div>
               ))}
             </div>

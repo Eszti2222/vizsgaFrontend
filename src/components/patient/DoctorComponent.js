@@ -7,14 +7,9 @@ export default function DoctorComponent({ doctor }) {
       <div className="card-body">
         <h5 className="card-title">{doctor.name}</h5>
 
-        <p className="card-text">
+        <p className="card-text mb-1">
           <strong>Szakterület:</strong>{" "}
           {doctor.specialization || "Nincs megadva"}
-        </p>
-
-        <p className="card-text">
-          <strong>Rendelő:</strong>{" "}
-          {doctor.office_location || "Nincs megadva"}
         </p>
 
         {/* Részletek gomb – átvisz az adott orvos oldalára */}

@@ -71,9 +71,15 @@ export default function DoctorDetailsPage() {
         </Link>
       </div>
 
+      <div className="mb-3">
+        <Link to="/specialorders" className="btn btn-outline-secondary btn-sm">
+          ← Vissza a szakrendelésekhez
+        </Link>
+      </div>
+
       <Link
         to={`/doctors/${id}/timetable`}
-        state={{ doctorName: doctor.name }} 
+        state={{ doctorName: doctor.name }}
         className="btn btn-primary mt-3"
       >
         Időpont foglalása ehhez az orvoshoz
