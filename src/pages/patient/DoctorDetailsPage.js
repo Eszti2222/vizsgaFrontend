@@ -1,6 +1,6 @@
 import { useParams, Link } from "react-router";
 import { useEffect, useState } from "react";
-import { myAxios } from "../services/api";
+import { myAxios } from "../../services/api";
 
 export default function DoctorDetailsPage() {
   const { id } = useParams();

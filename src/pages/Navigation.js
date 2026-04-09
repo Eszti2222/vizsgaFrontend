@@ -41,7 +41,7 @@ export default function Navigation() {
     { path: "/", label: "Kezdőlap" },
     { path: "/profile", label: "Profilom" },
     { path: "/patient-my-appointments", label: "Időpontjaim" },
-    { path: "/documents", label: "Dokumentumaim" },
+    { path: "/patient-my-documents", label: "Dokumentumaim" },
     { path: "/specialorders", label: "Szakrendelések" },
     { path: "/doctors", label: "Orvosok" },
   ];
@@ -87,16 +87,28 @@ export default function Navigation() {
           {user ? (
             <div className="account-info">
               <span className="account-name">{user.name}</span>
-              <button className="account-btn" type="button" onClick={handleLogoutClick}>
+              <button
+                className="account-btn"
+                type="button"
+                onClick={handleLogoutClick}
+              >
                 Kijelentkezés
               </button>
             </div>
           ) : (
             <div>
-              <NavLink className="account-btn" to="/login" onClick={closeMobileMenu}>
+              <NavLink
+                className="account-btn"
+                to="/login"
+                onClick={closeMobileMenu}
+              >
                 Bejelentkezés
               </NavLink>
-              <NavLink className="account-btn secondary" to="/register" onClick={closeMobileMenu}>
+              <NavLink
+                className="account-btn secondary"
+                to="/register"
+                onClick={closeMobileMenu}
+              >
                 Regisztráció
               </NavLink>
             </div>
@@ -109,33 +121,48 @@ export default function Navigation() {
             user.role === "doctor" &&
             doctorNavItems.map((item) => (
               <li key={item.path}>
-                <NavLink to={item.path} onClick={closeMobileMenu}>{item.label}</NavLink>
+                <NavLink to={item.path} onClick={closeMobileMenu}>
+                  {item.label}
+                </NavLink>
               </li>
             ))}
           {user &&
             user.role === "patient" &&
             patientNavItems.map((item) => (
               <li key={item.path}>
-                <NavLink to={item.path} onClick={closeMobileMenu}>{item.label}</NavLink>
+                <NavLink to={item.path} onClick={closeMobileMenu}>
+                  {item.label}
+                </NavLink>
               </li>
             ))}
           {user &&
             user.role === "admin" &&
             adminNavItems.map((item) => (
               <li key={item.path}>
-                <NavLink to={item.path} onClick={closeMobileMenu}>{item.label}</NavLink>
+                <NavLink to={item.path} onClick={closeMobileMenu}>
+                  {item.label}
+                </NavLink>
               </li>
             ))}
         </ul>
         <ul className="fixed-bottom-nav">
           {fixedNavItems.map((item) => (
             <li key={item.path}>
-              <NavLink to={item.path} onClick={closeMobileMenu}>{item.label}</NavLink>
+              <NavLink to={item.path} onClick={closeMobileMenu}>
+                {item.label}
+              </NavLink>
             </li>
           ))}
         </ul>
       </nav>
-      {mobileMenuOpen && <button className="mobile-menu-overlay" type="button" aria-label="Menü bezárása" onClick={closeMobileMenu} />}
+      {mobileMenuOpen && (
+        <button
+          className="mobile-menu-overlay"
+          type="button"
+          aria-label="Menü bezárása"
+          onClick={closeMobileMenu}
+        />
+      )}
     </header>
   );
 }

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { myAxios } from "../services/api";
+import { myAxios } from "../../services/api";
 import { Link } from "react-router";
 
 export default function PatientBookedAppointmentsPage() {

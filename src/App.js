@@ -1,3 +1,5 @@
+
+import { DoctorProvider } from "./contexts/DoctorContext";
 import AboutUsPage from "./pages/AboutUsPage";
 import GyikPage from "./pages/GyikPage";
 import ContactsPage from "./pages/ContactsPage";
@@ -11,20 +13,23 @@ import HomePage from "./pages/HomePage";
 import NoPage from "./pages/NoPage";
 import Layout from "./layouts/Layout";
 import DocumentsPage from "./pages/DocumentsPage";
-import BookedTimes from "./pages/doctor/BookedTimes";
-import AdminHomePage from "./pages/admin/AdminHomePage";
-import PatientHomePage from "./pages/PatientHomePage";
-import DoctorPatientsList from "./components/doctor/DoctorPatientsList";
-import DoctorAppointmentsList from "./components/doctor/DoctorAppointmentsList";
-import DocumentUpload from "./components/doctor/DocumentUpload";
 import TimeTablePage from "./pages/TimeTablePage";
 import ProfilePage from "./pages/ProfilePage";
-import SpecialordersPage from "./pages/SpecialordersPage";
-import DoctorsPage from "./pages/DoctorsPage";
-import DoctorDetailsPage from "./pages/DoctorDetailsPage";
-import { DoctorProvider } from "./contexts/DoctorContext";
-import PatientBookedAppointmentsPage from "./pages/PatientBookedAppointmentsPage";
+//doctor
+import BookedTimes from "./pages/doctor/BookedTimes";
+import DocumentUpload from "./components/doctor/DocumentUpload";
+import DoctorPatientsList from "./components/doctor/DoctorPatientsList";
+import DoctorAppointmentsList from "./components/doctor/DoctorAppointmentsList";
+//admin
+import AdminHomePage from "./pages/admin/AdminHomePage";
+//patient
+import PatientBookedAppointmentsPage from "./pages/patient/PatientBookedAppointmentsPage";
 import AdminUserList from "./components/admin/AdminUsersList";
+import PatientDocumentsPage from "./pages/patient/PatientDocumentsPage";
+import SpecialordersPage from "./pages/patient/SpecialordersPage";
+import DoctorDetailsPage from "./pages/patient/DoctorDetailsPage";
+import PatientHomePage from "./pages/patient/PatientHomePage";
+import DoctorsPage from "./pages/DoctorsPage";
 
 function App() {
   const router = createBrowserRouter([
@@ -58,10 +63,10 @@ function App() {
           path: "/timetable",
           element: <TimeTablePage />,
         },
-        {
-          path: "/documents",
+        /*{
+          path: "/documents",   //legyen erre külön útvonala mindenkinek pl:
           element: <DocumentsPage />,
-        },
+        },*/
         {
           path: "/specialorders",
           element: <SpecialordersPage />,
@@ -70,7 +75,7 @@ function App() {
           path: "/doctors",
           element: <DoctorsPage />,
         },
-       {
+        {
           path: "/adoctors",
           element: <AdminUserList />,
         },
@@ -121,6 +126,10 @@ function App() {
         {
           path: "/patient-my-appointments",
           element: <PatientBookedAppointmentsPage />,
+        },
+        {
+          path: "/patient-my-documents",
+          element: <PatientDocumentsPage />,
         },
       ],
     },

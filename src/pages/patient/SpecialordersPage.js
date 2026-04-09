@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { myAxios } from "../services/api";
-import DoctorComponent from "../components/patient/DoctorComponent";
+import { myAxios } from "../../services/api";
+import DoctorComponent from "../../components/patient/DoctorComponent";
 
 export default function SpecialordersPage() {
   const [specializations, setSpecializations] = useState([]);
