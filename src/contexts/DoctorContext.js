@@ -1,6 +1,5 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useCallback, useContext, useState } from "react";
 import { myAxios } from "../services/api";
-import { AuthContext } from "./AuthContext";
 
 export const DoctorContext = createContext();
 
@@ -9,10 +8,7 @@ export function DoctorProvider({ children }) {
   const [loadingDoctors, setLoadingDoctors] = useState(false);
   const [doctorError, setDoctorError] = useState(null);
 
-  // AuthContext-ből meg tudod nézni, hogy van-e user
-  const { user } = useContext(AuthContext);
-
-  const loadDoctors = async () => {
+  const loadDoctors = useCallback(async () => {
     try {
       setLoadingDoctors(true);
       setDoctorError(null);
@@ -30,7 +26,7 @@ export function DoctorProvider({ children }) {
     } finally {
       setLoadingDoctors(false);
     }
-  };
+  }, []);
 
 
 
