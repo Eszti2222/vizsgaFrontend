@@ -1,7 +1,7 @@
 import React from "react";
 import AdminLayout from "../../layouts/AdminLayout";
 
-export default function AdminPatientsPage() {
+export default function AdminHomePage() {
   return (
     <AdminLayout>
       <div className="admin-patients-page">

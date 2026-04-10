@@ -19,7 +19,6 @@ export default function AdminPatientList(){
                 .get(`/api/users`)
                 .then((res) => {
                     setUsers(res.data);
-                    console.log(users);
                     setLoading(false);
                 })
                 .catch(() => {

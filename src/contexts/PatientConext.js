@@ -18,7 +18,6 @@ export function PatientProvider({ children }) {
       setPatientError(null);
 
       const {data} = await myAxios.get("/api/doctor/patients");
-      console.log(data)
       setPatients(data);
     } catch (error) {
       console.error("Error fetching patients:", error);
@@ -33,24 +32,6 @@ export function PatientProvider({ children }) {
     }
   };
 
-    function loadPatients1() {
-    myAxios
-      .get("/api/doctor/patients")
-      .then(function (response) {
-        // handle success
-        console.log(response.data);
-            setPatients(response.data);
-      })
-      .catch(function (error) {
-        // handle error
-        console.log(error);
-      })
-      .finally(function () {
-        // always executed
-      });
-  }
-
-  // Ha be van jelentkezve a user, automatikusan betölthetjük az orvosokat
 
 
   return (

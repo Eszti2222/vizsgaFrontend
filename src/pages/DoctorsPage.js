@@ -9,11 +9,11 @@ export default function DoctorsPage() {
 
   const [specializations, setSpecializations] = useState([]);
   const [selectedSpec, setSelectedSpec] = useState(""); // "" = összes
-/*
+
   useEffect(() => {
     loadDoctors();
   }, [loadDoctors]);
-*/
+
   useEffect(() => {
     (async () => {
       try {

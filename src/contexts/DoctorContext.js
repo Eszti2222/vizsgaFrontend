@@ -18,7 +18,6 @@ export function DoctorProvider({ children }) {
       setDoctorError(null);
 
       const {data} = await myAxios.get("/api/doctors");
-      console.log(data)
       setDoctors(data);
     } catch (error) {
       console.error("Error fetching doctors:", error);
@@ -33,24 +32,6 @@ export function DoctorProvider({ children }) {
     }
   };
 
-    function loadDoctors1() {
-    myAxios
-      .get("/api/doctors")
-      .then(function (response) {
-        // handle success
-        console.log(response.data);
-            setDoctors(response.data);
-      })
-      .catch(function (error) {
-        // handle error
-        console.log(error);
-      })
-      .finally(function () {
-        // always executed
-      });
-  }
-
-  // Ha be van jelentkezve a user, automatikusan betölthetjük az orvosokat
 
 
   return (
