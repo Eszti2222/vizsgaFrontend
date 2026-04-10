@@ -38,29 +38,8 @@ export default function DoctorPatientsList() {
 		setSaveSuccess("");
 	}
 
-	function handleCreateSuccess(createdPatient) {
-		if (createdPatient) {
-			setPatients((prev) => {
-				const alreadyExists = prev.some((patient) => {
-					if (createdPatient.id && patient.id) {
-						return patient.id === createdPatient.id;
-					}
-
-					return (
-						patient.social_security_number &&
-						createdPatient.social_security_number &&
-						patient.social_security_number === createdPatient.social_security_number
-					);
-				});
-
-				if (alreadyExists) {
-					return prev;
-				}
-
-				return [createdPatient, ...prev];
-			});
-		}
-
+	async function handleCreateSuccess() {
+		await loadPatients();
 		setShowCreateForm(false);
 		setSaveSuccess("Az új páciens sikeresen rögzítve lett.");
 	}
