@@ -21,7 +21,7 @@ export default function DoctorPatientsList() {
 			const res = await myAxios.get("/api/doctor/patients");
 			setPatients(Array.isArray(res.data) ? res.data : []);
 		} catch (error) {
-			setError("Nem sikerült lekérni a pácienseket.");
+			setError("Nem sikerült lekérni a pácienseket."); 
 		} finally {
 			setLoading(false);
 		}
