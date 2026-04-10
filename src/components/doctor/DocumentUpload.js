@@ -21,7 +21,14 @@ export default function DocumentUpload() {
 			setTypesLoading(true);
 			setError("");
 
-			const endpoints = ["/api/document-types", "/api/document_types", "/api/document-type"];
+			const endpoints = [
+				"/api/document-types",
+				"/api/document_types",
+				"/api/document-type",
+				"/document-types",
+				"/document_types",
+				"/document-type",
+			];
 			let loaded = false;
 
 			for (const endpoint of endpoints) {
@@ -31,7 +38,7 @@ export default function DocumentUpload() {
 						? data
 						: Array.isArray(data?.data)
 							? data.data
-							: [];
+							: Object.values(data ?? {}).find((value) => Array.isArray(value)) || [];
 
 					const normalized = source
 						.map((item) => {
@@ -91,23 +98,57 @@ export default function DocumentUpload() {
 			setError("Minden mező kitöltése kötelező!");
 			return;
 		}
+
+		const normalizedTaj = patientTaj.trim();
+		if (!/^\d{9}$/.test(normalizedTaj)) {
+			setError("A TAJ szám 9 számjegy legyen.");
+			return;
+		}
+
 		const formData = new FormData();
 		formData.append("file", file);
-		formData.append("taj", patientTaj);
+		formData.append("taj", normalizedTaj);
+		formData.append("social_security_number", normalizedTaj);
+		formData.append("patient_social_security_number", normalizedTaj);
 		formData.append("type", selectedType);
+		formData.append("document_type", selectedType);
 
 		const selectedTypeEntry = documentTypes.find((docType) => docType.type === selectedType);
 		if (selectedTypeEntry?.id) {
 			formData.append("document_type_id", selectedTypeEntry.id);
+			formData.append("type_id", selectedTypeEntry.id);
 		}
 
 		formData.append("date", date);
+		formData.append("document_date", date);
 		setLoading(true);
 		try {
 			await myAxios.get("/sanctum/csrf-cookie");
-			await myAxios.post("/api/documents", formData, {
-				headers: { "Content-Type": "multipart/form-data" },
-			});
+
+			const uploadEndpoints = ["/api/documents", "/documents"];
+			let uploaded = false;
+
+			for (const endpoint of uploadEndpoints) {
+				try {
+					await myAxios.post(endpoint, formData, {
+						headers: { "Content-Type": "multipart/form-data" },
+					});
+					uploaded = true;
+					break;
+				} catch (uploadError) {
+					if (uploadError.response?.status === 404) {
+						continue;
+					}
+
+					throw uploadError;
+				}
+			}
+
+			if (!uploaded) {
+				setError("A dokumentum feltöltési végpont nem található.");
+				return;
+			}
+
 			setMessage("Dokumentum sikeresen feltöltve!");
 			setFile(null);
 			setPatientTaj("");
@@ -115,11 +156,13 @@ export default function DocumentUpload() {
 			setDate("");
 		} catch (err) {
 			if (err.response?.status === 422) {
-				setError("Validációs hiba. Ellenőrizd a mezőket.");
+				setError(err.response?.data?.message || "Validációs hiba. Ellenőrizd a mezőket.");
 			} else if (err.response?.status === 403) {
 				setError("Nincs jogosultság dokumentum feltöltéshez.");
+			} else if (err.response?.status === 404) {
+				setError("A dokumentum feltöltési végpont nem található.");
 			} else {
-				setError("Hiba történt a feltöltés során.");
+				setError(err.response?.data?.message || "Hiba történt a feltöltés során.");
 			}
 		} finally {
 			setLoading(false);
