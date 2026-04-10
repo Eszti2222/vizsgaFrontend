@@ -1,10 +1,18 @@
 import React from "react";
+import { Link } from "react-router";
 
 export default function PatientComponent({ patient }) {
   return (
-    <div className="card mb-3">
+    <Link
+      to={`/patients/${patient.id}`}
+      className="card mb-3 patient-card-link"
+      aria-label={`${patient.name} adatainak megnyitása`}
+    >
       <div className="card-body">
-        <h5 className="card-title">{patient.name}</h5>
+        <div className="patient-card-header">
+          <h5 className="card-title">{patient.name}</h5>
+          <span className="patient-card-action">Részletek</span>
+        </div>
 
         <p className="card-text">
           <strong>TAJ:</strong>{" "}
@@ -21,31 +29,11 @@ export default function PatientComponent({ patient }) {
           {patient.email || "Nincs megadva"}
         </p>
 
-         <p className="card-text">
+        <p className="card-text">
           <strong>Telefon szám:</strong>{" "}
           {patient.phone_number || "Nincs megadva"}
         </p>
-
-        <p className="card-text">
-          <strong>Ország:</strong>{" "}
-          {patient.country || "Nincs megadva"}
-        </p>
-
-        <p className="card-text">
-          <strong>Város:</strong>{" "}
-          {patient.city || "Nincs megadva"}
-        </p>
-
-        <p className="card-text">
-          <strong>Irányítószám:</strong>{" "}
-          {patient.postal_code || "Nincs megadva"}
-        </p>
-
-        <p className="card-text">
-          <strong>Cím:</strong>{" "}
-          {patient.street_address || "Nincs megadva"}
-        </p>
       </div>
-    </div>
+    </Link>
   );
 }

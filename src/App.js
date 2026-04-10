@@ -17,6 +17,7 @@ import TimeTablePage from "./pages/TimeTablePage";
 import ProfilePage from "./pages/ProfilePage";
 //doctor
 import BookedTimes from "./pages/doctor/BookedTimes";
+import DoctorPatientDetailsPage from "./pages/doctor/DoctorPatientDetailsPage";
 import DocumentUpload from "./components/doctor/DocumentUpload";
 import DoctorPatientsList from "./components/doctor/DoctorPatientsList";
 import DoctorAppointmentsList from "./components/doctor/DoctorAppointmentsList";
@@ -90,6 +91,10 @@ function App() {
         {
           path: "/patients",
           element: <DoctorPatientsList />,
+        },
+        {
+          path: "/patients/:id",
+          element: <DoctorPatientDetailsPage />,
         },
         {
           path: "/appointments-list",

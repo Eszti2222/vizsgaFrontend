@@ -4,8 +4,8 @@ import "./css/loginpage.css";
 import { AuthContext } from "../contexts/AuthContext";
 
 export default function LoginPage() {
-  const [email, setEmail] = useState("admin@test.com");
-  const [password, setPassWord] = useState("password123");
+  const [email, setEmail] = useState(" ");
+  const [password, setPassWord] = useState("");
   const [errors, setErrors] = useState({});
   const { loginReg, serverError } = useContext(AuthContext);
 

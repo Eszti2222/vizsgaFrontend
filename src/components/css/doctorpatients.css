@@ -118,6 +118,101 @@
     gap: 1rem;
 }
 
+.patient-card-link {
+    color: inherit;
+    text-decoration: none;
+    border: 1px solid #d7e7e1;
+    border-radius: 1rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.patient-card-link:hover {
+    color: inherit;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(23, 53, 45, 0.08);
+    border-color: #92d2bc;
+}
+
+.patient-card-link .card-body {
+    height: 100%;
+}
+
+.patient-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+
+.patient-card-action {
+    color: #0a7a5a;
+    font-size: 0.9rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.doctor-patient-details-page {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.doctor-patient-details-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.doctor-patient-back-link {
+    color: #0a7a5a;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.doctor-patient-details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+}
+
+.doctor-patient-detail-card,
+.doctor-patient-appointments-card {
+    background: #fff;
+    border: 1px solid #d7e7e1;
+    border-radius: 1rem;
+    padding: 1.25rem;
+    box-shadow: 0 10px 24px rgba(23, 53, 45, 0.06);
+}
+
+.doctor-patient-detail-card h3,
+.doctor-patient-appointments-card h3 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+.doctor-patient-detail-list {
+    display: grid;
+    gap: 0.75rem;
+    margin: 0;
+}
+
+.doctor-patient-detail-list div {
+    display: grid;
+    gap: 0.25rem;
+}
+
+.doctor-patient-detail-list dt {
+    font-weight: 600;
+    color: #17352d;
+}
+
+.doctor-patient-detail-list dd {
+    margin: 0;
+    color: #334c44;
+}
+
 @media (max-width: 720px) {
     .doctor-patients-header {
         flex-direction: column;
@@ -131,5 +226,11 @@
     .patient-save-button,
     .patient-create-button {
         width: 100%;
+    }
+
+    .patient-card-header,
+    .doctor-patient-details-header {
+        flex-direction: column;
+        align-items: flex-start;
     }
 }
