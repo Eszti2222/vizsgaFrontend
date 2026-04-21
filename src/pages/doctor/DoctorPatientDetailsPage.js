@@ -3,7 +3,9 @@ import { Link, useParams } from "react-router";
 import DoctorLayout from "../../layouts/DoctorLayout";
 import { AuthContext } from "../../contexts/AuthContext";
 import { myAxios } from "../../services/api";
+import PatientComponent from "../../components/doctor/PatientComponent";
 import DoctorAppointmentsList from "../../components/doctor/DoctorAppointmentsList";
+import LoadingMessage from "../../components/common/LoadingMessage";
 import "../../components/css/doctorpatients.css";
 import "../css/bookedtimes.css";
 
@@ -86,52 +88,12 @@ export default function DoctorPatientDetailsPage() {
           </Link>
         </div>
 
-        {loading && <p>Betöltés...</p>}
+        {loading && <LoadingMessage />}
         {error && <p className="text-danger">{error}</p>}
 
         {!loading && !error && patient && (
           <>
-            <section className="doctor-patient-detail-card">
-              <h3>Személyes adatok</h3>
-              <dl className="doctor-patient-detail-list doctor-patient-details-grid">
-                <div>
-                  <dt>Név</dt>
-                  <dd>{patient.name || "Nincs megadva"}</dd>
-                </div>
-                <div>
-                  <dt>TAJ</dt>
-                  <dd>{patient.social_security_number || "Nincs megadva"}</dd>
-                </div>
-                <div>
-                  <dt>Születési dátum</dt>
-                  <dd>{patient.birth_date || "Nincs megadva"}</dd>
-                </div>
-                <div>
-                  <dt>Email</dt>
-                  <dd>{patient.email || "Nincs megadva"}</dd>
-                </div>
-                <div>
-                  <dt>Telefonszám</dt>
-                  <dd>{patient.phone_number || "Nincs megadva"}</dd>
-                </div>
-                <div>
-                  <dt>Ország</dt>
-                  <dd>{patient.country || "Nincs megadva"}</dd>
-                </div>
-                <div>
-                  <dt>Város</dt>
-                  <dd>{patient.city || "Nincs megadva"}</dd>
-                </div>
-                <div>
-                  <dt>Irányítószám</dt>
-                  <dd>{patient.postal_code || "Nincs megadva"}</dd>
-                </div>
-                <div>
-                  <dt>Cím</dt>
-                  <dd>{patient.street_address || "Nincs megadva"}</dd>
-                </div>
-              </dl>
-            </section>
+            <PatientComponent patient={patient} showLink={false} />
 
             <section className="doctor-patient-appointments-card">
               <h3>A páciens időpontjai</h3>
