@@ -20,7 +20,6 @@ import BookedTimes from "./pages/doctor/BookedTimes";
 import DoctorPatientDetailsPage from "./pages/doctor/DoctorPatientDetailsPage";
 import DocumentUpload from "./components/doctor/DocumentUpload";
 import DoctorPatientsList from "./components/doctor/DoctorPatientsList";
-import DoctorAppointmentsList from "./components/doctor/DoctorAppointmentsList";
 //admin
 import AdminHomePage from "./pages/admin/AdminHomePage";
 //patient
@@ -98,7 +97,7 @@ function App() {
         },
         {
           path: "/appointments-list",
-          element: <DoctorAppointmentsList />,
+          element: <BookedTimes />,
         },
         {
           path: "/document-upload",
