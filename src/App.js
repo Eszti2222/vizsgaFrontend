@@ -1,4 +1,3 @@
-
 import { DoctorProvider } from "./contexts/DoctorContext";
 import AboutUsPage from "./pages/AboutUsPage";
 import GyikPage from "./pages/GyikPage";
@@ -147,7 +146,7 @@ function App() {
   return (
     <AuthProvider>
       <DoctorProvider>
-        <RouterProvider router={router} />
+          <RouterProvider router={router} />
       </DoctorProvider>
     </AuthProvider>
   );

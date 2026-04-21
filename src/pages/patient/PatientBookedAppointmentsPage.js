@@ -1,15 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { myAxios } from "../../services/api";
 import { Link } from "react-router";
-
 import AppointmentCard from "../../components/patient/AppointmentCard";
 import LoadingMessage from "../../components/common/LoadingMessage";
-
-
-
 import { useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContext"
-
 
 export default function PatientBookedAppointmentsPage() {
   const { user, loading: authLoading } = useContext(AuthContext)
@@ -29,17 +24,12 @@ export default function PatientBookedAppointmentsPage() {
     }
   };
 
-
-
 useEffect(() => {
   if (authLoading) return;
   if (!user || user.role !== "patient") return;
 
   fetchAppointments(sortOrder);
 }, [sortOrder, user, authLoading]);
-
-
-
 
   const handleDelete = async (id) => {
     const ok = window.confirm("Biztosan törlöd ezt az időpontot?");
@@ -59,9 +49,6 @@ useEffect(() => {
 
   return (
     <div className="container mt-3">
-      
-
-      {/* 🧾 FEJLÉC */}
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h2>Időpontjaim</h2>
 
@@ -82,13 +69,10 @@ useEffect(() => {
           </Link>
         </div>
       </div>
-
-      {/* 📭 ÜRES ÁLLAPOT */}
       {appointments.length === 0 && (
         <p>Még nincs foglalt időpontod.</p>
       )}
 
-      {/* 🗂️ KÁRTYÁK */}
       {appointments.length > 0 && (
         <div className="row g-3">
           {appointments.map((appt) => (

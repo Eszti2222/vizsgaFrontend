@@ -56,6 +56,7 @@ export default function PatientDocumentsPage() {
       {sortedDocuments.length === 0 && (
         <p>Nincs feltöltött dokumentum.</p>
       )}
+
       {sortedDocuments.length > 0 &&
         sortedDocuments.map((doc) => (
           <DocumentCard key={doc.id} doc={doc} />

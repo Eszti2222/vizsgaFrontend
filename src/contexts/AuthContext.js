@@ -22,9 +22,8 @@ export function AuthProvider({ children }) {
       //Lekérdezzük a usert
       //await getUser();
       //elmegyünk  a kezdőlapra
-      loadUser()
+      loadUser();
       window.location.href = "/home";
-
     } catch (error) {
       console.log(error);
       if (error.response.status === 422) {
@@ -35,28 +34,31 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     if (!user) {
-      loadUser()
+      loadUser();
     }
-  }, [])
+  }, []);
 
   const loadUser = async () => {
     try {
       await csrf(); // CSRF cookie lekérése
       const { data } = await myAxios.get("/api/profile");
-      console.log(data)
+      console.log(data);
       setUser(data);
-    } catch(err) {
+    } catch (err) {
       console.log(err);
     }
-  }
+  };
 
   const logout = async () => {
-    await csrf();
-
-    myAxios.post("/logout").then((resp) => {
+    try {
+      await csrf();
+      await myAxios.post("/logout");
+    } catch (error) {
+      console.log("Logout error:", error);
+    } finally {
       setUser(null);
-      console.log(resp);
-    });
+      window.location.reload();
+    }
   };
 
   function hibakezeles(error) {
@@ -65,7 +67,7 @@ export function AuthProvider({ children }) {
       setServerError("A megadott adatok nem szerepelnek az adatbázisban");
     } else if (status === 401) {
       setServerError(
-        "A hitelesítési token érvénytelen vagy lejárt. Menj a login oldalra!"
+        "A hitelesítési token érvénytelen vagy lejárt. Menj a login oldalra!",
       );
     } else if (status === 403) {
       setServerError("Nincs jogosultsága a kért művelethez!");
@@ -81,7 +83,9 @@ export function AuthProvider({ children }) {
   }
 
   return (
-    <AuthContext.Provider value={{ logout, loginReg, hibakezeles, loadUser, user }}>
+    <AuthContext.Provider
+      value={{ logout, loginReg, hibakezeles, loadUser, user }}
+    >
       {children}
     </AuthContext.Provider>
   );
