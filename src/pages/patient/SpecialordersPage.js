@@ -70,7 +70,6 @@ export default function SpecialordersPage() {
         ))}
       </div>
 
-      {/* ORVOSLISTA SZŰRVE */}
       {selectedSpec && (
         <div className="mt-5">
           <h3>{selectedSpec} szak orvosai</h3>

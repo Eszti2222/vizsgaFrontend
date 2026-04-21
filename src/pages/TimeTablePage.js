@@ -4,7 +4,7 @@ import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { AuthContext } from "../contexts/AuthContext";
 import { myAxios } from "../services/api";
-import { useParams, useLocation } from "react-router";
+import { useParams, useLocation, Link } from "react-router";
 import CustomToolbar from "../components/calendar/CustomToolbar";
 
 const localizer = momentLocalizer(moment);
@@ -133,7 +133,22 @@ export default function TimeTablePage() {
 
   return (
     <div style={{ padding: "20px" }}>
+      <div className="mb-3 d-flex gap-2 flex-wrap">
+        <Link to="/doctors" className="btn btn-outline-secondary btn-sm">
+          ← Vissza az orvosokhoz
+        </Link>
+
+        <Link to="/specialorders" className="btn btn-outline-secondary btn-sm">
+          ← Vissza a szakrendelésekhez
+        </Link>
+
+        <Link to="/patient-my-appointments" className="btn btn-primary btn-sm">
+          Időpontjaim megtekintése
+        </Link>
+      </div>
+
       <h2>Időpont foglalás</h2>
+
       <Calendar
         localizer={localizer}
         events={events}
