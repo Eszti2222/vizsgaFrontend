@@ -10,6 +10,7 @@ import DoctorComponent from "../../components/patient/DoctorComponent";
 import LoadingMessage from "../../components/common/LoadingMessage";
 
 function SpecialordersContent() {
+  const { user } = useContext(AuthContext)
   const {
     specializations,
     doctors,
@@ -23,8 +24,9 @@ function SpecialordersContent() {
   const [selectedSpec, setSelectedSpec] = useState(null);
 
   useEffect(() => {
+    if (!user) return;
     loadSpecializations();
-  }, [loadSpecializations]);
+  },[loadSpecializations, user]);
 
   const handleSelectSpecialization = async (spec) => {
     setSelectedSpec(spec);
@@ -72,12 +74,6 @@ function SpecialordersContent() {
 }
 
 export default function SpecialordersPage() {
-  const { user } = useContext(AuthContext);
-
-  if (!user || user.role !== "patient") {
-    return <PatientLayout />;
-  }
-
   return (
     <PatientLayout>
       <PatientSpecializationProvider>

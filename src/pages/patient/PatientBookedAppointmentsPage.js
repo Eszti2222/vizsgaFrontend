@@ -9,6 +9,7 @@ import PatientAppointmentsList from "../../components/patient/PatientAppointment
 import LoadingMessage from "../../components/common/LoadingMessage";
 
 function PatientBookedAppointmentsContent() {
+  const { user } = useContext(AuthContext)
   const {
     appointments,
     loadingAppointments,
@@ -20,6 +21,7 @@ function PatientBookedAppointmentsContent() {
   const [sortOrder, setSortOrder] = useState("asc");
 
   useEffect(() => {
+    if (!user) return;
     loadPatientAppointments(sortOrder);
   }, [loadPatientAppointments, sortOrder]);
 
@@ -52,12 +54,6 @@ function PatientBookedAppointmentsContent() {
 }
 
 export default function PatientBookedAppointmentsPage() {
-  const { user } = useContext(AuthContext);
-
-  if (!user || user.role !== "patient") {
-    return <PatientLayout />;
-  }
-
   return (
     <PatientLayout>
       <PatientAppointmentsProvider>

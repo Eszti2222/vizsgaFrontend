@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import myAxios from "../../services/api";
 import DocumentCard from "../../components/patient/DocumentCard";
 import LoadingMessage from "../../components/common/LoadingMessage";
+import { AuthContext } from "../../contexts/AuthContext";
+import PatientLayout from "../../layouts/PatientLayout";
 
 export default function PatientDocumentsPage() {
+
   const [documents, setDocuments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [sortOrder, setSortOrder] = useState("desc");
-
+  const { user } = useContext(AuthContext);
   const fetchDocuments = async () => {
     try {
       setLoading(true);
@@ -20,17 +23,16 @@ export default function PatientDocumentsPage() {
     }
   };
 
-  useEffect(() => {
-    fetchDocuments();
-  }, []);
+useEffect(() => {
+  if (!user) return;
+  fetchDocuments();
+}, [user]);
 
   const sortedDocuments = [...documents].sort((a, b) => {
     const dateA = new Date(a.created_at);
     const dateB = new Date(b.created_at);
 
-    return sortOrder === "asc"
-      ? dateA - dateB
-      : dateB - dateA;
+    return sortOrder === "asc" ? dateA - dateB : dateB - dateA;
   });
 
   if (loading) {
@@ -38,6 +40,7 @@ export default function PatientDocumentsPage() {
   }
 
   return (
+    <PatientLayout>
     <div className="container mt-4">
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h2>Dokumentumaim</h2>
@@ -48,19 +51,14 @@ export default function PatientDocumentsPage() {
             setSortOrder((prev) => (prev === "asc" ? "desc" : "asc"))
           }
         >
-          {sortOrder === "asc"
-            ? "Legújabb elöl"
-            : "Legrégebbi elöl"}
+          {sortOrder === "asc" ? "Legújabb elöl" : "Legrégebbi elöl"}
         </button>
       </div>
-      {sortedDocuments.length === 0 && (
-        <p>Nincs feltöltött dokumentum.</p>
-      )}
+      {sortedDocuments.length === 0 && <p>Nincs feltöltött dokumentum.</p>}
 
       {sortedDocuments.length > 0 &&
-        sortedDocuments.map((doc) => (
-          <DocumentCard key={doc.id} doc={doc} />
-        ))}
+        sortedDocuments.map((doc) => <DocumentCard key={doc.id} doc={doc} />)}
     </div>
+      </PatientLayout>
   );
 }

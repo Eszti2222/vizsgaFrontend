@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useMemo, useState } from "react";
 import { DoctorContext } from "../contexts/DoctorContext";
 import DoctorComponent from "../components/patient/DoctorComponent";
 import { myAxios } from "../services/api";
+import { AuthContext } from "../contexts/AuthContext";
 
 export default function DoctorsPage() {
   const { doctors, loadingDoctors, doctorError, loadDoctors } =
@@ -9,12 +10,16 @@ export default function DoctorsPage() {
 
   const [specializations, setSpecializations] = useState([]);
   const [selectedSpec, setSelectedSpec] = useState(""); // "" = összes
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
+    if (!user) return;
     loadDoctors();
   }, [loadDoctors]);
 
   useEffect(() => {
+    if (!user) return;
+
     (async () => {
       try {
         const { data } = await myAxios.get("/api/specializations");
@@ -23,7 +28,7 @@ export default function DoctorsPage() {
         console.error("Error fetching specializations:", err);
       }
     })();
-  }, []);
+  }, [user]);
 
   //Szűrt lista (nem módosítja az eredeti sorrendet)
   const filteredDoctors = useMemo(() => {
