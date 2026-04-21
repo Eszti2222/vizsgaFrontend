@@ -7,6 +7,9 @@ export function DoctorProvider({ children }) {
   const [doctors, setDoctors] = useState([]);
   const [loadingDoctors, setLoadingDoctors] = useState(false);
   const [doctorError, setDoctorError] = useState(null);
+  const [doctorAppointments, setDoctorAppointments] = useState([]);
+  const [loadingDoctorAppointments, setLoadingDoctorAppointments] = useState(false);
+  const [doctorAppointmentsError, setDoctorAppointmentsError] = useState("");
 
   const loadDoctors = useCallback(async () => {
     try {
@@ -28,6 +31,20 @@ export function DoctorProvider({ children }) {
     }
   }, []);
 
+  const loadDoctorAppointments = useCallback(async () => {
+    try {
+      setLoadingDoctorAppointments(true);
+      setDoctorAppointmentsError("");
+
+      const res = await myAxios.get("/api/doctor/appointments");
+      setDoctorAppointments(Array.isArray(res.data) ? res.data : []);
+    } catch (_error) {
+      setDoctorAppointmentsError("Nem sikerült lekérni az időpontokat.");
+    } finally {
+      setLoadingDoctorAppointments(false);
+    }
+  }, []);
+
 
 
   return (
@@ -36,7 +53,12 @@ export function DoctorProvider({ children }) {
         doctors,
         loadingDoctors,
         doctorError,
-        loadDoctors,setDoctors
+        loadDoctors,
+        setDoctors,
+        doctorAppointments,
+        loadingDoctorAppointments,
+        doctorAppointmentsError,
+        loadDoctorAppointments,
       }}
     >
       {children}

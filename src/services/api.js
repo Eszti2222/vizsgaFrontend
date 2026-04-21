@@ -25,24 +25,4 @@ myAxios.interceptors.request.use(
   }
 );
 
-// API helper functions
-
-//export const getDoctorPatients = async () => {
-//  return myAxios.get("/doctor/patients");
-//};
-//
-//export const getDoctorPatient = async (patientId) => {
-//  return myAxios.get(`/doctor/patients/${patientId}`);
-//};
-//
-//export const getDoctorAppointments = async () => {
-//  return myAxios.get("/doctor/appointments");
-//};
-//
-//export const uploadDoctorDocument = async (formData) => {
-//  return myAxios.post("/doctor/documents", formData, {
-//    headers: { "Content-Type": "multipart/form-data" },
-//  });
-//};
-
 export default myAxios;

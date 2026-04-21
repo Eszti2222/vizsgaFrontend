@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { myAxios } from "../../services/api";
+import { usePatients } from "../../contexts/PatientConext";
 
 const initialFormState = {
   name: "",
@@ -9,6 +9,7 @@ const initialFormState = {
 };
 
 export default function DoctorPatientCreateForm({ onSuccess, onCancel }) {
+  const { createPatient } = usePatients();
   const [formData, setFormData] = useState(initialFormState);
   const [formErrors, setFormErrors] = useState({});
   const [saveError, setSaveError] = useState("");
@@ -60,12 +61,7 @@ export default function DoctorPatientCreateForm({ onSuccess, onCancel }) {
     setSaveError("");
 
     try {
-      await myAxios.get("/sanctum/csrf-cookie");
-      const response = await myAxios.post("/api/doctor/patients", formData);
-      const createdPatient =
-        response.data && typeof response.data === "object" && !Array.isArray(response.data)
-          ? { ...formData, ...response.data }
-          : { ...formData };
+      const createdPatient = await createPatient(formData);
 
       setFormData(initialFormState);
       setFormErrors({});

@@ -5,6 +5,8 @@ import ContactsPage from "./pages/ContactsPage";
 import React from "react";
 import { createBrowserRouter, RouterProvider, Navigate } from "react-router";
 import { AuthProvider } from "./contexts/AuthContext";
+import { DoctorDocumentProvider } from "./contexts/DoctorDocumentContext";
+import { PatientProvider } from "./contexts/PatientConext";
 import authMiddleware from "./middleware/autMiddleware";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
@@ -17,9 +19,8 @@ import ProfilePage from "./pages/ProfilePage";
 //doctor
 import BookedTimes from "./pages/doctor/BookedTimes";
 import DoctorPatientDetailsPage from "./pages/doctor/DoctorPatientDetailsPage";
-import DocumentUpload from "./components/doctor/DocumentUpload";
+import DocumentUploadPage from "./pages/doctor/DocumentUploadPage";
 import DoctorPatientsList from "./components/doctor/DoctorPatientsList";
-import DoctorAppointmentsList from "./components/doctor/DoctorAppointmentsList";
 //admin
 import AdminHomePage from "./pages/admin/AdminHomePage";
 //patient
@@ -97,11 +98,11 @@ function App() {
         },
         {
           path: "/appointments-list",
-          element: <DoctorAppointmentsList />,
+          element: <BookedTimes />,
         },
         {
           path: "/document-upload",
-          element: <DocumentUpload />,
+          element: <DocumentUploadPage />,
         },
         {
           path: "/aboutus",
@@ -146,7 +147,11 @@ function App() {
   return (
     <AuthProvider>
       <DoctorProvider>
-          <RouterProvider router={router} />
+        <PatientProvider>
+          <DoctorDocumentProvider>
+            <RouterProvider router={router} />
+          </DoctorDocumentProvider>
+        </PatientProvider>
       </DoctorProvider>
     </AuthProvider>
   );
