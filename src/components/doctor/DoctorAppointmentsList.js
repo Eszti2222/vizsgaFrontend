@@ -36,25 +36,29 @@ function formatAppointmentTime(appointmentTime) {
   });
 }
 
-export default function DoctorAppointmentsList({ appointments }) {
+export default function DoctorAppointmentsList({
+  appointments,
+  showPatientName = true,
+  emptyMessage = "Nincs foglalt időpont.",
+}) {
   if (!appointments || appointments.length === 0) {
-    return <p>Nincs foglalt időpont.</p>;
+    return <p>{emptyMessage}</p>;
   }
 
   return (
     <table className="table">
       <thead>
         <tr>
-          <th>Páciens neve</th>
+          {showPatientName && <th>Páciens neve</th>}
           <th>Dátum</th>
           <th>Időpont</th>
           <th>Státusz</th>
         </tr>
       </thead>
       <tbody>
-        {appointments.map((appt) => (
-          <tr key={appt.id}>
-            <td>{appt.patient_name}</td>
+        {appointments.map((appt, index) => (
+          <tr key={appt.id || `${appt.appointment_time || "unknown"}-${index}`}>
+            {showPatientName && <td>{appt.patient_name || "-"}</td>}
             <td>{formatAppointmentDate(appt.appointment_time)}</td>
             <td>{formatAppointmentTime(appt.appointment_time)}</td>
             <td>{appt.status || "-"}</td>

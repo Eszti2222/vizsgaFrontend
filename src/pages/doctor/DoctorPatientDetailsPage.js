@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router";
 import DoctorLayout from "../../layouts/DoctorLayout";
 import { AuthContext } from "../../contexts/AuthContext";
 import { myAxios } from "../../services/api";
+import DoctorAppointmentsList from "../../components/doctor/DoctorAppointmentsList";
 import "../../components/css/doctorpatients.css";
 import "../css/bookedtimes.css";
 
@@ -24,46 +25,6 @@ function getPatientFromResponse(data) {
   return data?.patient ?? null;
 }
 
-function formatAppointmentDate(appointment) {
-  const appointmentTime = getAppointmentTimestamp(appointment);
-
-  if (!appointmentTime) return "-";
-
-  if (typeof appointmentTime === "string") {
-    const [datePart] = appointmentTime.split(" ");
-    if (/^\d{4}-\d{2}-\d{2}$/.test(datePart)) {
-      const [year, month, day] = datePart.split("-");
-      return `${year}.${month}.${day}.`;
-    }
-  }
-
-  const date = new Date(appointmentTime);
-  if (Number.isNaN(date.getTime())) return appointmentTime;
-
-  return date.toLocaleDateString("hu-HU");
-}
-
-function formatAppointmentTime(appointment) {
-  const appointmentTime = getAppointmentTimestamp(appointment);
-
-  if (!appointmentTime) return "-";
-
-  if (typeof appointmentTime === "string") {
-    const parts = appointmentTime.split(" ");
-    if (parts.length >= 2 && /^\d{2}:\d{2}(:\d{2})?$/.test(parts[1])) {
-      return parts[1].slice(0, 5);
-    }
-  }
-
-  const date = new Date(appointmentTime);
-  if (Number.isNaN(date.getTime())) return appointmentTime;
-
-  return date.toLocaleTimeString("hu-HU", {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-}
-
 export default function DoctorPatientDetailsPage() {
   const { id } = useParams();
   const { user } = useContext(AuthContext);
@@ -71,6 +32,13 @@ export default function DoctorPatientDetailsPage() {
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
+  const normalizedAppointments = appointments.map((appointment, index) => ({
+    id: appointment.id || `appointment-${index}`,
+    appointment_time: getAppointmentTimestamp(appointment),
+    status: appointment.status,
+    patient_name: patient?.name,
+  }));
 
   useEffect(() => {
     if (!user || user.role !== "doctor") {
@@ -167,30 +135,13 @@ export default function DoctorPatientDetailsPage() {
 
             <section className="doctor-patient-appointments-card">
               <h3>A páciens időpontjai</h3>
-              {appointments.length === 0 ? (
-                <p>Ehhez a pácienshez még nincs foglalt időpont.</p>
-              ) : (
-                <div className="booked-times-page">
-                  <table className="table">
-                    <thead>
-                      <tr>
-                        <th>Dátum</th>
-                        <th>Időpont</th>
-                        <th>Státusz</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {appointments.map((appointment) => (
-                        <tr key={appointment.id || getAppointmentTimestamp(appointment)}>
-                          <td>{formatAppointmentDate(appointment)}</td>
-                          <td>{formatAppointmentTime(appointment)}</td>
-                          <td>{appointment.status || "-"}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              )}
+              <div className="booked-times-page">
+                <DoctorAppointmentsList
+                  appointments={normalizedAppointments}
+                  showPatientName={false}
+                  emptyMessage="Ehhez a pácienshez még nincs foglalt időpont."
+                />
+              </div>
             </section>
           </>
         )}
