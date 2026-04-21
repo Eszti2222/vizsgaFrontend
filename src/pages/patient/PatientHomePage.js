@@ -1,4 +1,3 @@
-// src/pages/PatientHomePage.js
 import React from "react";
 import HomeLayout from "../../layouts/HomeLayout";
 
