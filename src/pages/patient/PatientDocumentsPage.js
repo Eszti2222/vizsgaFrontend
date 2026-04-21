@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { myAxios } from "../../services/api";
+import DocumentCard from "../../components/patient/DocumentCard";
+import LoadingMessage from "../../components/common/LoadingMessage";
 
 export default function PatientDocumentsPage() {
   const [documents, setDocuments] = useState([]);
@@ -7,18 +9,13 @@ export default function PatientDocumentsPage() {
 
   useEffect(() => {
     (async () => {
-      try {
-        const { data } = await myAxios.get("/api/documents");
-        setDocuments(data);
-      } catch (error) {
-        console.error("Hiba a dokumentumok betöltésekor:", error);
-      } finally {
-        setLoading(false);
-      }
+      const { data } = await myAxios.get("/api/documents");
+      setDocuments(data);
+      setLoading(false);
     })();
   }, []);
 
-  if (loading) return <p>Dokumentumok betöltése...</p>;
+  if (loading) return <LoadingMessage text="Dokumentumok betöltése..." />;
 
   return (
     <div className="container mt-4">
@@ -28,17 +25,7 @@ export default function PatientDocumentsPage() {
         <p>Nincs feltöltött dokumentum.</p>
       ) : (
         documents.map((doc) => (
-          <div key={doc.id} className="card mb-3">
-            <div className="card-body">
-              <h5>{doc.type}</h5>
-              <p><strong>Orvos:</strong> {doc.doctor_name}</p>
-              <p><strong>Leírás:</strong> {doc.description || "—"}</p>
-              <p>
-                <strong>Dátum:</strong>{" "}
-                {new Date(doc.created_at).toLocaleDateString()}
-              </p>
-            </div>
-          </div>
+          <DocumentCard key={doc.id} doc={doc} />
         ))
       )}
     </div>
