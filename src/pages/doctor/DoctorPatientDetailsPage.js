@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router";
 import DoctorLayout from "../../layouts/DoctorLayout";
 import { AuthContext } from "../../contexts/AuthContext";
-import { myAxios } from "../../services/api";
+import { usePatients } from "../../contexts/PatientConext";
 import PatientComponent from "../../components/doctor/PatientComponent";
 import DoctorAppointmentsList from "../../components/doctor/DoctorAppointmentsList";
 import LoadingMessage from "../../components/common/LoadingMessage";
@@ -30,6 +30,7 @@ function getPatientFromResponse(data) {
 export default function DoctorPatientDetailsPage() {
   const { id } = useParams();
   const { user } = useContext(AuthContext);
+  const { loadPatientDetails } = usePatients();
   const [patient, setPatient] = useState(null);
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -54,11 +55,9 @@ export default function DoctorPatientDetailsPage() {
       setError("");
 
       try {
-        const response = await myAxios.get(`/api/doctor/patients/${id}`);
-        const nextPatient = getPatientFromResponse(response.data);
-
-        setPatient(nextPatient);
-        setAppointments(getAppointmentsFromResponse(response.data));
+        const data = await loadPatientDetails(id);
+        setPatient(data.patient);
+        setAppointments(data.appointments);
       } catch (requestError) {
         if (requestError.response?.status === 404) {
           setError("A páciens nem található.");
@@ -73,7 +72,7 @@ export default function DoctorPatientDetailsPage() {
     };
 
     loadPatient();
-  }, [id, user]);
+  }, [id, loadPatientDetails, user]);
 
   return (
     <DoctorLayout>

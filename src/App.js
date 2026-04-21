@@ -7,6 +7,7 @@ import React from "react";
 import { createBrowserRouter, RouterProvider, Navigate } from "react-router";
 import { AuthProvider } from "./contexts/AuthContext";
 import { DoctorDocumentProvider } from "./contexts/DoctorDocumentContext";
+import { PatientProvider } from "./contexts/PatientConext";
 import authMiddleware from "./middleware/autMiddleware";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
@@ -147,9 +148,11 @@ function App() {
   return (
     <AuthProvider>
       <DoctorProvider>
-        <DoctorDocumentProvider>
-          <RouterProvider router={router} />
-        </DoctorDocumentProvider>
+        <PatientProvider>
+          <DoctorDocumentProvider>
+            <RouterProvider router={router} />
+          </DoctorDocumentProvider>
+        </PatientProvider>
       </DoctorProvider>
     </AuthProvider>
   );
