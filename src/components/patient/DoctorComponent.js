@@ -11,8 +11,6 @@ export default function DoctorComponent({ doctor }) {
           <strong>Szakterület:</strong>{" "}
           {doctor.specialization || "Nincs megadva"}
         </p>
-
-        {/* Részletek gomb – átvisz az adott orvos oldalára */}
         <Link
           to={`/doctors/${doctor.id}`}
           className="btn btn-primary mt-2"
