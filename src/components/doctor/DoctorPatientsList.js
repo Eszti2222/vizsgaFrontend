@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import DoctorLayout from "../../layouts/DoctorLayout";
 import { AuthContext } from "../../contexts/AuthContext";
-import { usePatients } from "../../contexts/PatientConext";
+import { usePatients } from "../../contexts/PatientContext";
 import PatientComponent from "./PatientComponent";
 import DoctorPatientCreateForm from "./DoctorPatientCreateForm";
  import "../css/doctorpatients.css";

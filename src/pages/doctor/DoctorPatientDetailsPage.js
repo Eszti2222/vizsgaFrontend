@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router";
 import DoctorLayout from "../../layouts/DoctorLayout";
 import { AuthContext } from "../../contexts/AuthContext";
-import { usePatients } from "../../contexts/PatientConext";
+import { usePatients } from "../../contexts/PatientContext";
 import PatientComponent from "../../components/doctor/PatientComponent";
 import DoctorAppointmentsList from "../../components/doctor/DoctorAppointmentsList";
 import LoadingMessage from "../../components/common/LoadingMessage";

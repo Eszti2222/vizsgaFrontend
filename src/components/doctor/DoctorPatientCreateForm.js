@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { usePatients } from "../../contexts/PatientConext";
+import { usePatients } from "../../contexts/PatientContext";
 
 const initialFormState = {
   name: "",
