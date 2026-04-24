@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useState } from "react";
-import { createContext, use { myAxios } from "../services/api";
+import { myAxios } from "../services/api";
 
 const PatientDocumentContext = createContext();
 
