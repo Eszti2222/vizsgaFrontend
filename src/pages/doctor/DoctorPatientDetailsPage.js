@@ -5,7 +5,9 @@ import { AuthContext } from "../../contexts/AuthContext";
 import { usePatients } from "../../contexts/PatientContext";
 import PatientComponent from "../../components/doctor/PatientComponent";
 import DoctorAppointmentsList from "../../components/doctor/DoctorAppointmentsList";
+import DoctorPatientDocumentsList from "../../components/doctor/DoctorPatientDocumentsList";
 import LoadingMessage from "../../components/common/LoadingMessage";
+import myAxios from "../../services/api";
 import "../../components/css/doctorpatients.css";
 import "../css/bookedtimes.css";
 
@@ -33,8 +35,10 @@ export default function DoctorPatientDetailsPage() {
   const { loadPatientDetails } = usePatients();
   const [patient, setPatient] = useState(null);
   const [appointments, setAppointments] = useState([]);
+  const [documents, setDocuments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
 
   const normalizedAppointments = appointments.map((appointment, index) => ({
     id: appointment.id || `appointment-${index}`,
@@ -58,6 +62,12 @@ export default function DoctorPatientDetailsPage() {
         const data = await loadPatientDetails(id);
         setPatient(data.patient);
         setAppointments(data.appointments);
+
+        // Dokumentumok lekérése
+        const docResponse = await myAxios.get(
+          `/api/doctor/patients/${id}/documents`
+        );
+        setDocuments(Array.isArray(docResponse.data) ? docResponse.data : []);
       } catch (requestError) {
         if (requestError.response?.status === 404) {
           setError("A páciens nem található.");
@@ -101,6 +111,16 @@ export default function DoctorPatientDetailsPage() {
                   appointments={normalizedAppointments}
                   showPatientName={false}
                   emptyMessage="Ehhez a pácienshez még nincs foglalt időpont."
+                />
+              </div>
+            </section>
+
+            <section className="doctor-patient-appointments-card">
+              <h3>A páciens dokumentumai</h3>
+              <div className="booked-times-page">
+                <DoctorPatientDocumentsList
+                  documents={documents}
+                  emptyMessage="Ehhez a pácienshez még nincs feltöltött dokumentum."
                 />
               </div>
             </section>
